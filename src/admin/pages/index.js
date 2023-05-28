@@ -1,0 +1,5 @@
+export {default as ContentPage} from "./ContentPage"
+export {default as DashBoard} from "./DashBoard"
+export {default as Donation} from "./Donation"
+export {default as ManagerAdmin} from "./ManagerAdmin"
+export {default as NotFoundAdmin} from "./NotFoundAdmin"

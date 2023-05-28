@@ -1,24 +1,30 @@
-import logo from './logo.svg';
-import './App.css';
+import { Fragment } from 'react';
+
+import { Header, Footer, ContentPage } from './user';
+
+
+
+
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Fragment>
+            {/* Loader sẽ làm sau cùng */}
+            {/* <div className="spinner-border text-muted"></div> */}    
+
+            {/* Header begin */}
+                <Header />
+            {/* Header end */}
+
+            {/* Content begin */}
+                <ContentPage />
+            {/* Content end */}
+                
+            {/* Footer begin */}
+                <Footer />
+            {/* Footer begin */}
+
+      </Fragment>
   );
 }
 
