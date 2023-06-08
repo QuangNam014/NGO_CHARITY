@@ -1,9 +1,19 @@
 import { createBrowserRouter } from 'react-router-dom';
+
 import App from '../App';
 import { PathUser } from './PathUser';
 import { PathAdmin } from './PathAdmin';
-import { AboutUs, Donate, HelpCentre, HomePage, NotFoundUser, OutPartner } from '../user';
-import { AdminPage, DashBoard, Donation, ManagerAdmin, NotFoundAdmin } from '../admin';
+import { AboutUs, Donate, HelpCentre, HomePage, NotFoundUser, OutPartner, ProfileUser, UserLogin } from '../user';
+import {
+    AdminLogin,
+    AdminPage,
+    DashBoard,
+    Donation,
+    ManagerAdmin,
+    NotFoundAdmin,
+    PrivateAdmin,
+    Profile,
+} from '../admin';
 
 const router = createBrowserRouter([
     {
@@ -30,11 +40,19 @@ const router = createBrowserRouter([
                 path: PathUser.userHelp,
                 element: <HelpCentre />,
             },
+            {
+                path: PathUser.userProfile,
+                element: <ProfileUser />,
+            },
         ],
     },
     {
         path: PathAdmin.admin,
-        element: <AdminPage />,
+        element: (
+            <PrivateAdmin>
+                <AdminPage />
+            </PrivateAdmin>
+        ),
         children: [
             {
                 path: PathAdmin.admin,
@@ -48,11 +66,23 @@ const router = createBrowserRouter([
                 path: PathAdmin.adminManager,
                 element: <ManagerAdmin />,
             },
+            {
+                path: PathAdmin.adminProfile,
+                element: <Profile />,
+            },
         ],
+    },
+    {
+        path: PathUser.userLogin,
+        element: <UserLogin />,
     },
     {
         path: PathUser.userNotFound,
         element: <NotFoundUser />,
+    },
+    {
+        path: PathAdmin.adminLogin,
+        element: <AdminLogin />,
     },
     {
         path: PathAdmin.adminNotFound,
