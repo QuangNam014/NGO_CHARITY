@@ -1,17 +1,40 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ModalComponent } from '~/admin/components';
-import { getListAdmin } from '~/admin/utils';
+import { ToastError, ToastSuccess, getListAdmin } from '~/admin/utils';
+import { PathAdmin } from '~/routers/PathAdmin';
 import CreateAdmin from './CreateAdmin';
+import ResetPassword from './ResetPassword';
 
 function ManagerAdmin(props) {
     const [showModal, setShowModal] = useState(false);
     const [listAdmin, setListAdmin] = useState([]);
 
+    const navigate = useNavigate();
+
     const fetchApiListAdmin = () => {
-        getListAdmin()
-            .then((result) => setListAdmin(result))
-            .catch((error) => console.log(error));
+        try {
+            getListAdmin()
+                .then((result) => {
+                    if (result.status === 200) {
+                        setListAdmin(result.data);
+                    }
+                })
+                .catch((error) => {
+                    if (error.message === 'Network Error') {
+                        navigate(`../${PathAdmin.adminNotFound}`);
+                    } else {
+                        const errorValid = error.response.data; // {status, message}
+                        if (errorValid.status === 404) {
+                            ToastError(errorValid.message);
+                        }
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
     };
     useEffect(() => {
         fetchApiListAdmin();
@@ -60,15 +83,7 @@ function ManagerAdmin(props) {
                                         <td>{item.name}</td>
                                         <td>{item.email}</td>
                                         <td>
-                                            <button
-                                                type="button"
-                                                className="btn mb-1 btn-outline-warning"
-                                                data-toggle="tooltip"
-                                                data-placement="bottom"
-                                                title="reset password"
-                                            >
-                                                <i className="fa-solid fa-arrows-rotate"></i>
-                                            </button>
+                                            <ResetPassword email={item.email} />
                                             <button
                                                 type="button"
                                                 className="btn mb-1 ml-2 btn-outline-danger"

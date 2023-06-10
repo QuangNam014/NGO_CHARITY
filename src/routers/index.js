@@ -3,7 +3,17 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import { PathUser } from './PathUser';
 import { PathAdmin } from './PathAdmin';
-import { AboutUs, Donate, HelpCentre, HomePage, NotFoundUser, OutPartner, ProfileUser, UserLogin } from '../user';
+import {
+    AboutUs,
+    Donate,
+    ForgetPassword,
+    HelpCentre,
+    HomePage,
+    NotFoundUser,
+    OutPartner,
+    ProfileUser,
+    UserLogin,
+} from '../user';
 import {
     AdminLogin,
     AdminPage,
@@ -75,6 +85,10 @@ const router = createBrowserRouter([
     {
         path: PathUser.userLogin,
         element: <UserLogin />,
+    },
+    {
+        path: PathUser.userForgetPassword,
+        element: <ForgetPassword />,
     },
     {
         path: PathUser.userNotFound,

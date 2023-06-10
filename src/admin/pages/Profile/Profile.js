@@ -1,21 +1,43 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
+import { ToastError, getUser } from '~/admin/utils';
 import AuthenticateAdmin from '~/admin/utils/AuthenticateAdmin';
 import ProfileBtn from './ProfileBtn';
-import { getUser } from '~/admin/utils';
-import './Profile.css';
 import getAvatar from '~/admin/utils/GetAvatar';
+import './Profile.css';
+import { PathAdmin } from '~/routers/PathAdmin';
 
 function Profile(props) {
     const { inforUser } = AuthenticateAdmin;
     const [getInfoUser, setGetInfoUser] = useState({});
 
+    const navigate = useNavigate();
+
     const fetchApiGetUser = () => {
         if (inforUser) {
-            getUser(inforUser.email)
-                .then((result) => setGetInfoUser(result))
-                .catch((error) => console.log(error));
+            try {
+                getUser(inforUser.email)
+                    .then((result) => {
+                        if (result.status === 200) {
+                            setGetInfoUser(result.data);
+                        }
+                    })
+                    .catch((error) => {
+                        console.log(error);
+                        if (error.message === 'Network Error') {
+                            navigate(`../${PathAdmin.adminNotFound}`);
+                        } else {
+                            const errorValid = error.response.data;
+                            if (errorValid.status === 404) {
+                                ToastError(errorValid.message);
+                            }
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
         }
     };
 

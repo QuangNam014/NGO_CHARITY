@@ -1,10 +1,16 @@
+import { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
 import InputChangePass from './InputChangePass';
 import { ToastSuccess, changePassword } from '~/admin/utils';
+import { PathUser } from '~/routers/PathUser';
 
 function ProfileBtnChangePass({ getInfoUser }) {
+    const [showOldPassError, setShowOldPassError] = useState(false);
+    const navigate = useNavigate();
+
     const initDataFomik = {
         oldPassword: '',
         newpassword: '',
@@ -20,16 +26,24 @@ function ProfileBtnChangePass({ getInfoUser }) {
             email: getInfoUser.email,
         };
 
-        console.log('data: ', resquestData);
         try {
             changePassword(getInfoUser.email, resquestData)
                 .then((result) => {
-                    if (result.status === '200') {
-                        fomik.resetForm()
+                    if (result.status === 200) {
+                        fomik.resetForm();
                         ToastSuccess(result.message);
                     }
                 })
-                .catch((error) => console.log(error));
+                .catch((error) => {
+                    if (error.message === 'Network Error') {
+                        navigate(`../${PathUser.userNotFound}`);
+                    } else {
+                        const errorValid = error.response.data;
+                        if (errorValid.status === 400) {
+                            setShowOldPassError(true);
+                        }
+                    }
+                });
         } catch (error) {
             console.log(error);
         }
@@ -67,6 +81,10 @@ function ProfileBtnChangePass({ getInfoUser }) {
         validationSchema,
     });
 
+    useEffect(() => {
+        setShowOldPassError(false);
+    }, [fomik.values]);
+
     return (
         <form onSubmit={fomik.handleSubmit} method="post">
             <div className="container rounded bg-white">
@@ -78,6 +96,7 @@ function ProfileBtnChangePass({ getInfoUser }) {
                             </div>
 
                             <InputChangePass
+                                showOldPassError={showOldPassError}
                                 requiredLabel={true}
                                 labelName="Password Old"
                                 inputName="password"

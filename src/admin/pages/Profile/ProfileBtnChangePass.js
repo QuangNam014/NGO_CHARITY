@@ -1,18 +1,22 @@
-import { Fragment, useState } from 'react';
+import { Fragment, useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
+import { ToastSuccess, changePassword } from '~/admin/utils';
 import { ModalComponent } from '~/admin/components';
+import { PathAdmin } from '~/routers/PathAdmin';
 import InputToolTip from '~/admin/components/TippyTooltip/InputToolTip';
 import getAvatar from '~/admin/utils/GetAvatar';
 import InputChangePass from './InputChangePass';
-import { ToastSuccess, changePassword } from '~/admin/utils';
 
 function ProfileBtnChangePass({ getInfoUser }) {
     const [showModal, setShowModal] = useState(false);
-
+    const [showOldPassError, setShowOldPassError] = useState(false);
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
+
+    const navigate = useNavigate();
 
     const initDataFomik = {
         oldPassword: '',
@@ -29,16 +33,24 @@ function ProfileBtnChangePass({ getInfoUser }) {
             email: getInfoUser.email,
         };
 
-        console.log('data: ', resquestData);
         try {
             changePassword(getInfoUser.email, resquestData)
                 .then((result) => {
-                    if (result.status === '200') {
+                    if (result.status === 200) {
                         closeModal();
                         ToastSuccess(result.message);
                     }
                 })
-                .catch((error) => console.log(error));
+                .catch((error) => {
+                    if (error.message === 'Network Error') {
+                        navigate(`../${PathAdmin.adminNotFound}`);
+                    } else {
+                        const errorValid = error.response.data;
+                        if (errorValid.status === 400) {
+                            setShowOldPassError(true);
+                        }
+                    }
+                });
         } catch (error) {
             console.log(error);
         }
@@ -76,6 +88,10 @@ function ProfileBtnChangePass({ getInfoUser }) {
         validationSchema,
     });
 
+    useEffect(() => {
+        setShowOldPassError(false);
+    }, [fomik.values]);
+
     return (
         <Fragment>
             <InputToolTip
@@ -106,6 +122,7 @@ function ProfileBtnChangePass({ getInfoUser }) {
                                     </div>
 
                                     <InputChangePass
+                                        showOldPassError={showOldPassError}
                                         requiredLabel={true}
                                         labelName="Password Old"
                                         inputName="password"

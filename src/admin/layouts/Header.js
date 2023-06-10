@@ -59,10 +59,6 @@ function Header({ getInfoUser }) {
                                 <i className="fa-regular fa-circle-user"></i>
                                 <Link to={PathAdmin.adminProfile}>Profile</Link>
                             </li>
-                            <li className="admin__layouts__header--header--dropdownItem">
-                                <i className="fa-solid fa-gear"></i>
-                                <a href="/">Change Password</a>
-                            </li>
                             <li className="admin__layouts__header--header--dropdownItem" onClick={handleLogout}>
                                 <i className="fa-solid fa-arrow-right-to-bracket fa-rotate-180"></i>
                                 <a>Logout</a>

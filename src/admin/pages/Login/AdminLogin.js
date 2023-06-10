@@ -4,10 +4,10 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 
-import InputAdminLogin from './InputAdminLogin';
 import { LoginModel } from '~/admin/utils';
 import { PathAdmin } from '~/routers/PathAdmin';
 import { useLoginStore } from '~/admin/stores';
+import InputAdminLogin from './InputAdminLogin';
 import AuthenticateAdmin from '~/admin/utils/AuthenticateAdmin';
 import './AdminLogin.css';
 
@@ -34,36 +34,38 @@ function AdminLogin(props) {
     };
 
     const onSubmit = (data) => {
-        LoginModel(data)
-            .then((result) => {
-                // result : {status, message}
-                // console.log(typeof result.token);
-                if (result.token !== null) {
-                    localStorage.setItem('token', result.token);
-                    localStorage.setItem('inforUser', JSON.stringify(result.inforUser));
-                    fomik.resetForm();
-                    setCheckRole(result.inforUser.role);
-                    setCheckLoginToken(result.token);
-                    navigate(`../${PathAdmin.admin}`);
-                    window.location.reload();
-                }
-            })
-            .catch((error) => {
-                if (error.message === 'Network Error') {
-                    navigate(`../${PathAdmin.adminNotFound}`);
-                } else {
-                    const errorValid = error.response.data; // {status, message}
-                    if (errorValid.status === '400' && errorValid.message === 'Login fail') {
-                        setValidError(true);
-                    } else if (
-                        errorValid.status === '400' &&
-                        errorValid.message ===
-                            'This account has not been registered, please contact the manager to get an account'
-                    ) {
-                        setValidErrorRole(true);
+        try {
+            LoginModel(data)
+                .then((result) => {
+                    if (result.status === 200) {
+                        localStorage.setItem('token', result.data.token);
+                        localStorage.setItem('inforUser', JSON.stringify(result.data.inforUser));
+                        fomik.resetForm();
+                        setCheckRole(result.data.inforUser.role);
+                        setCheckLoginToken(result.data.token);
+                        navigate(`../${PathAdmin.admin}`);
+                        window.location.reload();
                     }
-                }
-            });
+                })
+                .catch((error) => {
+                    if (error.message === 'Network Error') {
+                        navigate(`../${PathAdmin.adminNotFound}`);
+                    } else {
+                        const errorValid = error.response.data; // {status, message}
+                        if (errorValid.status === 400 && errorValid.message === 'Login fail') {
+                            setValidError(true);
+                        } else if (
+                            errorValid.status === 400 &&
+                            errorValid.message ===
+                                'This account has not been registered, please contact the manager to get an account'
+                        ) {
+                            setValidErrorRole(true);
+                        }
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const validationSchema = Yup.object().shape({

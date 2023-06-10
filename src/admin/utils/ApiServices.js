@@ -31,6 +31,11 @@ export const changePassword = async (email, value) => {
     return data.data;
 };
 
+export const resetPassword = async (email) => {
+    const data = await axios.put(`http://localhost:5065/api/Authenication/ResetPassword/${email}`, email);
+    return data.data;
+};
+
 // User
 export const getUser = async (value) => {
     const data = await axios.get(`http://localhost:5065/api/User/GetUser/${value}`);

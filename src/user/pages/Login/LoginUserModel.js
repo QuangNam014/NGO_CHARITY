@@ -23,29 +23,31 @@ function LoginUserModel(props) {
         const dataValid = await validateData(data);
         // console.log('sau valid: ', dataValid);
 
-        LoginModel(dataValid)
-            .then((result) => {
-                // result : {status, message}
-                // console.log(typeof result.token);
-                if (result.token !== null) {
-                    localStorage.setItem('token', result.token);
-                    localStorage.setItem('inforUser', JSON.stringify(result.inforUser));
-                    fomik.resetForm();
-                    setCheckInfoUser(result.inforUser);
-                    navigate(`../${PathUser.user}`);
-                    window.location.reload();
-                }
-            })
-            .catch((error) => {
-                if (error.message === 'Network Error') {
-                    navigate(`../${PathUser.userNotFound}`);
-                } else {
-                    const errorValid = error.response.data; // {status, message}
-                    if (errorValid.status === '400' && errorValid.message === 'Login fail') {
-                        setValidError(true);
+        try {
+            LoginModel(dataValid)
+                .then((result) => {
+                    if (result.status === 200) {
+                        localStorage.setItem('token', result.data.token);
+                        localStorage.setItem('inforUser', JSON.stringify(result.data.inforUser));
+                        fomik.resetForm();
+                        setCheckInfoUser(result.data.inforUser);
+                        navigate(`../${PathUser.user}`);
+                        window.location.reload();
                     }
-                }
-            });
+                })
+                .catch((error) => {
+                    if (error.message === 'Network Error') {
+                        navigate(`../${PathUser.userNotFound}`);
+                    } else {
+                        const errorValid = error.response.data;
+                        if (errorValid.status === 400) {
+                            setValidError(true);
+                        }
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const validationSchema = Yup.object().shape({
@@ -116,9 +118,9 @@ function LoginUserModel(props) {
                             Login
                         </button>
                         <p className="mb-0 mt-4 text-center user__pages__form__login--p">
-                            <a href="/" className="user__pages__form__login--link">
+                            <Link to={`../${PathUser.userForgetPassword}`} className="user__pages__form__login--link">
                                 Forgot your password?
-                            </a>
+                            </Link>
                         </p>
                     </form>
                     <div className="user__pages__form--back-home">
