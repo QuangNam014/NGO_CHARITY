@@ -6,6 +6,7 @@ export const PathUser = {
     userHelp: 'help',
     userNotFound: '*',
     userLogin: 'login',
+    userForgetPassword: 'forget-password',
 
     // begin profile
     userProfile: 'profile',

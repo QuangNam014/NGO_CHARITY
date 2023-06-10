@@ -1,11 +1,10 @@
-import React from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import ModalInput from '~/admin/components/Modal/ModalInput';
 import { RegisterModel, ToastError, ToastSuccess } from '~/admin/utils';
 import { PathAdmin } from '~/routers/PathAdmin';
+import ModalInput from '~/admin/components/Modal/ModalInput';
 
 function CreateAdmin({ closeModal, listAdmin, fetchApiListAdmin }) {
     const navigate = useNavigate();
@@ -18,31 +17,29 @@ function CreateAdmin({ closeModal, listAdmin, fetchApiListAdmin }) {
     };
 
     const onSubmit = (data) => {
-        console.log('data: ', data);
-        RegisterModel(data)
-            .then((result) => {
-                // result : {status, message}
-                // console.log(result);
-                if (result.status === '201') {
-                    fetchApiListAdmin();
-                    closeModal();
-                    ToastSuccess(result.message);
-                    fomik.resetForm();
-                }
-            })
-            .catch((error) => {
-                console.log(error);
-                if (error.message === 'Network Error') {
-                    navigate(PathAdmin.adminNotFound);
-                } else {
-                    if (error.response.status === 400) {
-                        let errorValid = error.response.data; // {status, message}
+        try {
+            RegisterModel(data)
+                .then((result) => {
+                    if (result.status === 201) {
+                        fetchApiListAdmin();
+                        closeModal();
+                        ToastSuccess(result.message);
+                        fomik.resetForm();
+                    }
+                })
+                .catch((error) => {
+                    if (error.message === 'Network Error') {
+                        navigate(`../${PathAdmin.adminNotFound}`);
+                    } else {
+                        const errorValid = error.response.data;
                         if (errorValid.status === 400) {
                             ToastError(errorValid.message);
                         }
                     }
-                }
-            });
+                });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const validationSchema = Yup.object().shape({

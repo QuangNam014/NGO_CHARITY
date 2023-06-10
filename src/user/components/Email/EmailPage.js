@@ -26,7 +26,7 @@ function EmailPage(props) {
                 </h1>
                 <div style={{ padding: 20 }}>
                     <h3 style={{ fontSize: 20, fontStyle: 'normal', fontWeight: 'bold', margin: '20px 0' }}>
-                        Thanks for joining Brandindoor!
+                        Thanks for joining NGO Charity!
                     </h3>
                     <p style={{ fontSize: 18, lineHeight: '150%', padding: '0 20px', margin: '18px 0' }}>
                         To finish signing up, please confirm your email address. This ensures we have the right email in
@@ -60,7 +60,7 @@ function EmailPage(props) {
                     <p>
                         Thanks,
                         <br />
-                        Brandindoor Team!
+                        Group 4 Team!
                     </p>
                 </div>
             </div>

@@ -1,18 +1,22 @@
 import { useEffect, useState } from 'react';
 import { renderToString } from 'react-dom/server';
 import { useFormik } from 'formik';
+import { useNavigate } from 'react-router-dom';
 import * as Yup from 'yup';
 
-import InputUser from './InputUser';
 import { RegisterModel, SendEmail } from '~/admin';
-// import { CatchError } from '~/admin/utils/CatchError';
+import { PathUser } from '~/routers/PathUser';
+import InputUser from './InputUser';
 import EmailPage from '~/user/components/Email/EmailPage';
 
 function RegisterUserModel(props) {
     const [showRole, setShowRole] = useState('Personal');
     const [showRegisterEmail, setShowRegisterEmail] = useState(false);
+    const [showRegisterError, setShowRegisterError] = useState(false);
+
     const emailRegex = '[a-z0-9._%+-]+@[a-z0-9.-]+.[a-z]{2,3}$';
-    // console.log(showRole);
+
+    const navigate = useNavigate();
 
     const initLoginFomik = {
         name: '',
@@ -24,30 +28,37 @@ function RegisterUserModel(props) {
     const onSubmit = async (data) => {
         const dataValid = await validateData(data);
         const emailContent = renderToString(<EmailPage />);
-        console.log('sau valid: ', dataValid);
 
-        RegisterModel(dataValid)
-            .then((result) => {
-                // result : {status, message}
-                console.log(result);
-                if (result.status === '201') {
-                    fomik.resetForm();
-                    const emailDataToSend = {
-                        toMail: dataValid.email,
-                        subject: 'Confirm Register Account',
-                        body: emailContent,
-                    };
-                    return SendEmail(emailDataToSend);
-                }
-            })
-            .then((result) => {
-                console.log(result);
-                setShowRegisterEmail(true);
-            })
-            .catch((error) => {
-                console.log(error);
-                // CatchError(error, error.response.data.status);
-            });
+        try {
+            RegisterModel(dataValid)
+                .then((result) => {
+                    console.log(result);
+                    if (result.status === 201) {
+                        fomik.resetForm();
+                        const emailDataToSend = {
+                            toMail: dataValid.email,
+                            subject: 'Confirm Register Account',
+                            body: emailContent,
+                        };
+                        return SendEmail(emailDataToSend);
+                    }
+                })
+                .then((result) => {
+                    setShowRegisterEmail(true);
+                })
+                .catch((error) => {
+                    if (error.message === 'Network Error') {
+                        navigate(`../${PathUser.userNotFound}`);
+                    } else {
+                        const errorValid = error.response.data;
+                        if (errorValid.status === 400) {
+                            setShowRegisterError(true);
+                        }
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     const validationSchema = Yup.object().shape({
@@ -89,6 +100,7 @@ function RegisterUserModel(props) {
 
     useEffect(() => {
         setShowRegisterEmail(false);
+        setShowRegisterError(false);
     }, [fomik.values]);
 
     return (
@@ -143,6 +155,7 @@ function RegisterUserModel(props) {
                             {...fomik.getFieldProps('name')}
                         />
                         <InputUser
+                            showRegisterError={showRegisterError}
                             icon="uil uil-at"
                             placeholder={showRole === 'Personal' ? 'Email' : 'Email company'}
                             inputName="email"

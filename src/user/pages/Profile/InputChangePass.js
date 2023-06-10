@@ -1,4 +1,12 @@
-function InputChangePass({ labelName, inputName, touched, error, requiredLabel = false, ...props }) {
+function InputChangePass({
+    labelName,
+    inputName,
+    touched,
+    error,
+    showOldPassError = false,
+    requiredLabel = false,
+    ...props
+}) {
     return (
         <div className="row mt-2">
             <div className="col-md-4">
@@ -15,6 +23,11 @@ function InputChangePass({ labelName, inputName, touched, error, requiredLabel =
                     {...props}
                 />
                 {touched && error && <p style={{ marginTop: '-20px', textAlign: 'left', color: 'red' }}>{error}</p>}
+                {showOldPassError && (
+                    <p style={{ marginTop: '-20px', textAlign: 'left', color: 'red' }}>
+                        The password is incorrect, please check again
+                    </p>
+                )}
             </div>
         </div>
     );

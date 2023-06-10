@@ -2,13 +2,13 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
-import getAvatar from '~/admin/utils/GetAvatar';
 import { useDataStoreUser } from '~/user/stores';
+import { PathUser } from '~/routers/PathUser';
+import getAvatar from '~/admin/utils/GetAvatar';
 import ProfileBtn from './ProfileBtn';
 import ProfileBtnDetail from './ProfileBtnDetail';
 import ProfileBtnEdit from './ProfileBtnEdit';
 import ProfileBtnChangePass from './ProfileBtnChangePass';
-import { PathUser } from '~/routers/PathUser';
 import AuthenticateAdmin from '~/admin/utils/AuthenticateAdmin';
 import './Profile.css';
 

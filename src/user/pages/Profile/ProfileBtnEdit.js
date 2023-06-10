@@ -1,10 +1,17 @@
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
-import { ToastSuccess, updateUser } from '~/admin/utils';
+import { ToastError, ToastSuccess, updateUser } from '~/admin/utils';
 import getAvatar from '~/admin/utils/GetAvatar';
+import { PathUser } from '~/routers/PathUser';
 
+function ProfileBtnEdit({ getInfoUser }) {
+    const [showErrorName, setShowErrorName] = useState(false);
+    const [showErrorFile, setShowErrorFile] = useState(false);
+    const [avatar, setAvatar] = useState();
 
-function ProfileBtnEdit({ getInfoUser, fetchApiGetUser }) {
+    const navigate = useNavigate();
+
     const initUpdate = {
         name: '',
         address: '',
@@ -12,10 +19,7 @@ function ProfileBtnEdit({ getInfoUser, fetchApiGetUser }) {
         region: '',
     };
 
-    const [avatar, setAvatar] = useState();
     const [formData, setFormData] = useState(initUpdate);
-    const [showErrorName, setShowErrorName] = useState(false);
-    const [showErrorFile, setShowErrorFile] = useState(false);
 
     useEffect(() => {
         setFormData(getInfoUser);
@@ -72,12 +76,23 @@ function ProfileBtnEdit({ getInfoUser, fetchApiGetUser }) {
         try {
             updateUser(getInfoUser.email, formDataValid)
                 .then((result) => {
-                    if (result.status === '200') {
-                        window.location.reload();
+                    if (result.status === 200) {
                         ToastSuccess(result.message);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
                     }
                 })
-                .catch((error) => console.log(error));
+                .catch((error) => {
+                    if (error.message === 'Network Error') {
+                        navigate(`../${PathUser.userNotFound}`);
+                    } else {
+                        const errorValid = error.response.data;
+                        if (errorValid.status === 400) {
+                            ToastError(errorValid.message);
+                        }
+                    }
+                });
         } catch (error) {
             console.log(error);
         }

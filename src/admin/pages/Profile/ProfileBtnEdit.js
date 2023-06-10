@@ -1,8 +1,10 @@
 import { Fragment, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 import { ModalComponent } from '~/admin/components';
+import { ToastError, ToastSuccess, updateUser } from '~/admin/utils';
+import { PathAdmin } from '~/routers/PathAdmin';
 import InputToolTip from '~/admin/components/TippyTooltip/InputToolTip';
-import { ToastSuccess, updateUser } from '~/admin/utils';
 import getAvatar from '~/admin/utils/GetAvatar';
 
 function ProfileBtnEdit({ getInfoUser, fetchApiGetUser }) {
@@ -17,6 +19,8 @@ function ProfileBtnEdit({ getInfoUser, fetchApiGetUser }) {
     const [formData, setFormData] = useState(initUpdate);
     const [showErrorName, setShowErrorName] = useState(false);
     const [showErrorFile, setShowErrorFile] = useState(false);
+
+    const navigate = useNavigate();
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
@@ -76,14 +80,26 @@ function ProfileBtnEdit({ getInfoUser, fetchApiGetUser }) {
         try {
             updateUser(getInfoUser.email, formDataValid)
                 .then((result) => {
-                    if (result.status === '200') {
+                    if (result.status === 200) {
                         fetchApiGetUser();
                         closeModal();
-                        window.location.reload();
                         ToastSuccess(result.message);
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000);
                     }
                 })
-                .catch((error) => console.log(error));
+                .catch((error) => {
+                    console.log(error);
+                    if (error.message === 'Network Error') {
+                        navigate(`../${PathAdmin.adminNotFound}`);
+                    } else {
+                        const errorValid = error.response.data;
+                        if (errorValid.status === 400) {
+                            ToastError(errorValid.message);
+                        }
+                    }
+                });
         } catch (error) {
             console.log(error);
         }

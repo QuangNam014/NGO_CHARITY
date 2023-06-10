@@ -205,3 +205,19 @@
     font-size: 18px;
     margin-top: -30px;
 }
+
+/* forget password */
+
+.forgetpass__page__wrapper {
+    font-family: 'Poppins', sans-serif;
+    font-weight: 300;
+    line-height: 1.7;
+    color: #ffeba7;
+    /* background-color: red; */
+    background: url('/public/assets/images/login/1.jpg') no-repeat;
+    background-position: center;
+    background-size: cover;
+}
+
+.forgetpass__page__wrapper--content {
+}
