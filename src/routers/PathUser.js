@@ -3,6 +3,7 @@ export const PathUser = {
     userAboutUs: 'about_us',
     userOutPartner: 'out_partner',
     userDonate: 'donate',
+    userDonationMoney: 'donation-money',
     userHelp: 'help',
     userNotFound: '*',
     userLogin: 'login',

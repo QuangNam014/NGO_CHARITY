@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 import { PathUser } from '../../routers/PathUser';
 import AuthenticateAdmin from '~/admin/utils/AuthenticateAdmin';
@@ -15,6 +15,7 @@ function Header(props) {
     const { checkInfoUser, setCheckInfoUser } = useLoginStore();
     const { inforUser } = AuthenticateAdmin;
     const isInforUser = !!inforUser || checkInfoUser;
+    const navigate = useNavigate();
 
     const { getInfoUser } = useDataStoreUser();
 
@@ -38,6 +39,10 @@ function Header(props) {
         localStorage.removeItem('inforUser');
         setCheckInfoUser(null);
         window.location.reload();
+    };
+
+    const handleDonate = () => {
+        navigate(`../${PathUser.userDonationMoney}`, { state: { program_id: { title: '', category_Id: 0 } } });
     };
 
     return (
@@ -79,7 +84,9 @@ function Header(props) {
                             </ul>
                         </div>
                         <div className="col-lg-3 d-none d-md-block col-md-6 btn-bhed">
-                            <button className="btn btn-sm btn-success">Donate</button>
+                            <button onClick={handleDonate} className="btn btn-sm btn-success">
+                                Donate
+                            </button>
 
                             {isInforUser ? (
                                 <div className="user__header--header-right " ref={menuRef}>

@@ -8,3 +8,4 @@ export { default as ProfileUser } from './Profile/ProfileUser';
 export { default as NotFoundUser } from './NotFoundUser';
 export { default as UserLogin } from './Login/UserLogin';
 export { default as ForgetPassword } from './Login/ForgetPassword';
+export { default as DonationMoney } from './DonationMoney/DonationMoney';

@@ -5,14 +5,16 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { CircularProgress } from 'react-cssfx-loading';
 
 import { ModalComponent } from '~/admin/components';
-import { ToastError, getListAdmin } from '~/admin/utils';
+import { ToastError, getListProgram } from '~/admin/utils';
 import { PathAdmin } from '~/routers/PathAdmin';
-import CreateAdmin from './CreateAdmin';
-import ListAdmin from './ListAdmin';
+import ListProgram from './ListProgram';
+import CreateProgram from './CreateProgram';
 
-function ManagerAdmin(props) {
+function ProgramAdmin(props) {
     const [showModal, setShowModal] = useState(false);
-    const [listAdmin, setListAdmin] = useState([]);
+    const [listProgram, setListProgram] = useState([]);
+    const [listCategory, setListCategory] = useState([]);
+
     const [isLoading, setIsLoading] = useState(true);
 
     const openModal = () => setShowModal(true);
@@ -20,14 +22,14 @@ function ManagerAdmin(props) {
 
     const navigate = useNavigate();
 
-    const fetchApiListAdmin = () => {
+    const fetchApiProgram = () => {
         setIsLoading(true);
         try {
-            getListAdmin()
+            getListProgram()
                 .then((result) => {
                     if (result.status === 200) {
                         setTimeout(() => {
-                            setListAdmin(result.data);
+                            setListProgram(result.data);
                             setIsLoading(false);
                         }, 1500);
                     }
@@ -48,14 +50,21 @@ function ManagerAdmin(props) {
     };
 
     useEffect(() => {
-        fetchApiListAdmin();
+        setListCategory([
+            { id: 1, title: 'Children' },
+            { id: 2, title: 'HealthCare' },
+            { id: 3, title: 'Disaster Relief' },
+            { id: 4, title: 'Women Empowerment' },
+        ]);
+
+        fetchApiProgram();
     }, []);
 
     return (
         <div className="admin__pages__content-page--card" style={{ minHeight: '500px' }}>
             <div className="card-body">
                 <div className="card-title">
-                    <h4>Manager Admin</h4>
+                    <h4>Program admin</h4>
                 </div>
 
                 <button
@@ -70,7 +79,11 @@ function ManagerAdmin(props) {
                 </button>
 
                 <ModalComponent showModal={showModal} closeModal={closeModal} contentLabel="Create Admin">
-                    <CreateAdmin closeModal={closeModal} listAdmin={listAdmin} fetchApiListAdmin={fetchApiListAdmin} />
+                    <CreateProgram
+                        listCategory={listCategory}
+                        closeModal={closeModal}
+                        fetchApiProgram={fetchApiProgram}
+                    />
                 </ModalComponent>
 
                 {isLoading ? (
@@ -80,12 +93,12 @@ function ManagerAdmin(props) {
                     </div>
                 ) : (
                     <InfiniteScroll
-                        dataLength={listAdmin.length}
-                        next={fetchApiListAdmin}
+                        dataLength={listProgram.length}
+                        next={fetchApiProgram}
                         hasMore={false}
                         endMessage={<p>No more data to load.</p>}
                     >
-                        <ListAdmin listAdmin={listAdmin} setListAdmin={setListAdmin} />
+                        <ListProgram listCategory={listCategory} fetchApiProgram={fetchApiProgram} listProgram={listProgram} setListProgram={setListProgram} />
                     </InfiniteScroll>
                 )}
             </div>
@@ -93,4 +106,4 @@ function ManagerAdmin(props) {
     );
 }
 
-export default ManagerAdmin;
+export default ProgramAdmin;

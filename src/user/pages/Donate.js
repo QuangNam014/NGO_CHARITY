@@ -1,6 +1,99 @@
-import { Fragment } from 'react';
+import { Fragment, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastError, getListProgram } from '~/admin';
+import { PathUser } from '~/routers/PathUser';
 
 function Donate(props) {
+    const [listProgram, setListProgram] = useState([]);
+    const [listCategory, setListCategory] = useState([]);
+    const [filter, setFilter] = useState('');
+    const [filteredData, setFilteredData] = useState([]);
+    // const [displayLimit, setDisplayLimit] = useState(3);
+    const navigate = useNavigate();
+
+    const handleDonate = (program) => {
+        navigate(`../${PathUser.userDonationMoney}`, { state: { program_id: program } });
+    };
+
+    const handleFilter = (id) => {
+        setFilter(id);
+    };
+
+    const fetchApiProgram = () => {
+        // setIsLoading(true);
+        try {
+            getListProgram()
+                .then((result) => {
+                    if (result.status === 200) {
+                        setTimeout(() => {
+                            // console.log(result.data);
+                            setListProgram(result.data);
+                            // setListProgram(result.data.slice(0, displayLimit));
+                            // ToastSuccess(result.message);
+                            // setIsLoading(false);
+                        }, 1500);
+                    }
+                })
+                .catch((error) => {
+                    if (error.message === 'Network Error') {
+                        navigate(`../${PathUser.userNotFound}`);
+                    } else {
+                        const errorValid = error.response.data; // {status, message}
+                        if (errorValid.status === 404) {
+                            ToastError(errorValid.message);
+                        }
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const fetchApiCategory = () => {
+        // setIsLoading(true);
+        setListCategory([
+            { id: 1, title: 'Children' },
+            { id: 2, title: 'HealthCare' },
+            { id: 3, title: 'Disaster Relief' },
+            { id: 4, title: 'Women Empowerment' },
+        ]);
+        // try {
+        //     getListProgram()
+        //         .then((result) => {
+        //             if (result.status === 200) {
+        //                 setTimeout(() => {
+        //                     // console.log(result.data);
+        //                     setListProgram(result.data);
+        //                     // ToastSuccess(result.message);
+        //                     // setIsLoading(false);
+        //                 }, 1500);
+        //             }
+        //         })
+        //         .catch((error) => {
+        //             if (error.message === 'Network Error') {
+        //                 navigate(`../${PathUser.userNotFound}`);
+        //             } else {
+        //                 const errorValid = error.response.data; // {status, message}
+        //                 if (errorValid.status === 404) {
+        //                     ToastError(errorValid.message);
+        //                 }
+        //             }
+        //         });
+        // } catch (error) {
+        //     console.log(error);
+        // }
+    };
+
+    useEffect(() => {
+        fetchApiProgram();
+        fetchApiCategory();
+    }, []);
+
+    useEffect(() => {
+        const filterData = listProgram.filter((item) => item.category_Id === filter);
+        setFilteredData(filterData);
+    }, [filter]);
+
     return (
         <Fragment>
             <div className="page-nav no-margin row">
@@ -8,75 +101,84 @@ function Donate(props) {
                     <div className="row">
                         <h2>Popular Causes</h2>
                         <ul>
-                            <li> <a href="/"><i className="fas fa-home"></i> Home</a></li>
-                            <li><i className="fas fa-angle-double-right"></i> About Us</li>
+                            <li>
+                                {' '}
+                                <a href="/">
+                                    <i className="fas fa-home"></i> Home
+                                </a>
+                            </li>
+                            <li>
+                                <i className="fas fa-angle-double-right"></i> Donate
+                            </li>
                         </ul>
                     </div>
                 </div>
             </div>
-        
+
+            <div className="gallery-filter d-none d-sm-block mt-3">
+                <button className="btn btn-default filter-button" onClick={() => setFilter('')}>
+                    All
+                </button>
+                {listCategory.map((category, index) => (
+                    <button
+                        key={index}
+                        className="btn btn-default filter-button"
+                        onClick={() => handleFilter(category.id)}
+                    >
+                        {category.title}
+                    </button>
+                ))}
+            </div>
+
+            <br />
+
             <section className="events">
                 <div className="container">
-                
                     <div className="event-ro row">
-                        <div className="col-md-4 col-sm-6">
-                            <div className="event-box">
-                                <img src="assets/images/events/image_08.jpg" alt=""/>
-                                <h4>Child Education in Africa</h4>
-                                
-                                <p className="raises"><span>Raised : $34,425</span> / $500,000 </p>
-                                <p className="desic">Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's </p>
-                                <button className="btn btn-success btn-sm">Donate Now</button>
-                            </div>
-                        </div>
-                        <div className="col-md-4 col-sm-6">
-                            <div className="event-box">
-                                <img src="assets/images/events/image_06.jpg" alt=""/>
-                                <h4>Child Education in Africa</h4>
-                                <p className="raises"><span>Raised : $34,425</span> / $500,000 </p>
-                                <p className="desic">Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's </p>
-                                <button className="btn btn-success btn-sm">Donate Now</button>
-                            </div>
-                        </div>
-                        <div className="col-md-4 col-sm-6">
-                            <div className="event-box">
-                                <img src="assets/images/events/image_04.jpg" alt=""/>
-                                <h4>Child Education in Africa</h4>
-                                <p className="raises"><span>Raised : $34,425</span> / $500,000 </p>
-                                <p className="desic">Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's </p>
-                                <button className="btn btn-success btn-sm">Donate Now</button>
-                            </div>
-                        </div>
-                        <div className="col-md-4 col-sm-6">
-                            <div className="event-box">
-                                <img src="assets/images/events/image_05.jpg" alt=""/>
-                                <h4>Child Education in Africa</h4>
-                                <p className="raises"><span>Raised : $34,425</span> / $500,000 </p>
-                                <p className="desic">Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's </p>
-                                <button className="btn btn-success btn-sm">Donate Now</button>
-                            </div>
-                        </div>
-                        <div className="col-md-4 col-sm-6">
-                            <div className="event-box">
-                                <img src="assets/images/events/image_06.jpg" alt=""/>
-                                <h4>Child Education in Africa</h4>
-                                <p className="raises"><span>Raised : $34,425</span> / $500,000 </p>
-                                <p className="desic">Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's </p>
-                                <button className="btn btn-success btn-sm">Donate Now</button>
-                            </div>
-                        </div>
-                        <div className="col-md-4 col-sm-6">
-                            <div className="event-box">
-                                <img src="assets/images/events/image_07.jpg" alt=""/>
-                                <h4>Child Education in Africa</h4>
-                                <p className="raises"><span>Raised : $34,425</span> / $500,000 </p>
-                                <p className="desic">Lorem Ipsum is simply dummy text of the printing and typesetting industry.  Lorem Ipsum has been the industry's </p>
-                                <button className="btn btn-success btn-sm">Donate Now</button>
-                            </div>
-                        </div>
+                        {filter && filteredData.length > 0
+                            ? filteredData.map((program, index) => (
+                                  <div key={index} className="col-md-4 col-sm-6">
+                                      <div className="event-box">
+                                          <img src={program.image} style={{ width: 316, height: 211 }} alt="" />
+                                          <h4>{program.title}</h4>
+
+                                          <p className="raises">
+                                              {/* <span>Raised : $34,425</span> / $500,000{' '} */}
+                                              <span>Budget: ${program.budget.toLocaleString()}</span>
+                                          </p>
+                                          <p className="desic">{program.description}</p>
+                                          <button
+                                              onClick={() => handleDonate(program)}
+                                              className="btn btn-success btn-sm"
+                                          >
+                                              Donate Now
+                                          </button>
+                                      </div>
+                                  </div>
+                              ))
+                            : listProgram.map((program, index) => (
+                                  <div key={index} className="col-md-4 col-sm-6">
+                                      <div className="event-box">
+                                          <img src={program.image} style={{ width: 316, height: 211 }} alt="" />
+                                          <h4>{program.title}</h4>
+
+                                          <p className="raises">
+                                              {/* <span>Raised : $34,425</span> / $500,000{' '} */}
+                                              <span>Budget: ${program.budget.toLocaleString()}</span>
+                                          </p>
+                                          <p className="desic">{program.description}</p>
+                                          <button
+                                              onClick={() => handleDonate(program)}
+                                              className="btn btn-success btn-sm"
+                                          >
+                                              Donate Now
+                                          </button>
+                                      </div>
+                                  </div>
+                              ))}
                     </div>
                 </div>
-            </section>   
+            </section>
         </Fragment>
     );
 }
