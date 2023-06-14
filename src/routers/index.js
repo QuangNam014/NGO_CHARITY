@@ -6,6 +6,7 @@ import { PathAdmin } from './PathAdmin';
 import {
     AboutUs,
     Donate,
+    DonationMoney,
     ForgetPassword,
     HelpCentre,
     HomePage,
@@ -20,9 +21,11 @@ import {
     DashBoard,
     Donation,
     ManagerAdmin,
+    ManagerUser,
     NotFoundAdmin,
     PrivateAdmin,
     Profile,
+    ProgramAdmin,
 } from '../admin';
 
 const router = createBrowserRouter([
@@ -54,6 +57,10 @@ const router = createBrowserRouter([
                 path: PathUser.userProfile,
                 element: <ProfileUser />,
             },
+            {
+                path: PathUser.userDonationMoney,
+                element: <DonationMoney />,
+            },
         ],
     },
     {
@@ -77,8 +84,16 @@ const router = createBrowserRouter([
                 element: <ManagerAdmin />,
             },
             {
+                path: PathAdmin.adminManagerUser,
+                element: <ManagerUser />,
+            },
+            {
                 path: PathAdmin.adminProfile,
                 element: <Profile />,
+            },
+            {
+                path: PathAdmin.adminProgram,
+                element: <ProgramAdmin />,
             },
         ],
     },

@@ -1,33 +1,27 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { CircularProgress } from 'react-cssfx-loading';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
-import { ModalComponent } from '~/admin/components';
-import { ToastError, getListAdmin } from '~/admin/utils';
+import { ToastError, getListUser } from '~/admin/utils';
 import { PathAdmin } from '~/routers/PathAdmin';
-import CreateAdmin from './CreateAdmin';
-import ListAdmin from './ListAdmin';
+import ListUser from './ListUser';
 
-function ManagerAdmin(props) {
-    const [showModal, setShowModal] = useState(false);
-    const [listAdmin, setListAdmin] = useState([]);
+function ManagerUser(props) {
+    const [listUser, setListUser] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
-
-    const openModal = () => setShowModal(true);
-    const closeModal = () => setShowModal(false);
 
     const navigate = useNavigate();
 
-    const fetchApiListAdmin = () => {
+    const fetchApiListUser = () => {
         setIsLoading(true);
         try {
-            getListAdmin()
+            getListUser()
                 .then((result) => {
                     if (result.status === 200) {
                         setTimeout(() => {
-                            setListAdmin(result.data);
+                            setListUser(result.data);
                             setIsLoading(false);
                         }, 1500);
                     }
@@ -48,30 +42,15 @@ function ManagerAdmin(props) {
     };
 
     useEffect(() => {
-        fetchApiListAdmin();
+        fetchApiListUser();
     }, []);
 
     return (
         <div className="admin__pages__content-page--card" style={{ minHeight: '500px' }}>
             <div className="card-body">
                 <div className="card-title">
-                    <h4>Manager Admin</h4>
+                    <h4>Manager User</h4>
                 </div>
-
-                <button
-                    type="button"
-                    className="btn mb-1 btn-info"
-                    data-toggle="tooltip"
-                    data-placement="bottom"
-                    title="add account"
-                    onClick={openModal}
-                >
-                    <i className="fa-solid fa-plus"></i>
-                </button>
-
-                <ModalComponent showModal={showModal} closeModal={closeModal} contentLabel="Create Admin">
-                    <CreateAdmin closeModal={closeModal} listAdmin={listAdmin} fetchApiListAdmin={fetchApiListAdmin} />
-                </ModalComponent>
 
                 {isLoading ? (
                     <div style={{ textAlign: 'center', marginTop: '200px', fontSize: 50 }}>
@@ -80,12 +59,12 @@ function ManagerAdmin(props) {
                     </div>
                 ) : (
                     <InfiniteScroll
-                        dataLength={listAdmin.length}
-                        next={fetchApiListAdmin}
+                        dataLength={listUser.length}
+                        next={fetchApiListUser}
                         hasMore={false}
                         endMessage={<p>No more data to load.</p>}
                     >
-                        <ListAdmin listAdmin={listAdmin} setListAdmin={setListAdmin} />
+                        <ListUser listUser={listUser} setListUser={setListUser} fetchApiListUser={fetchApiListUser} />
                     </InfiniteScroll>
                 )}
             </div>
@@ -93,4 +72,4 @@ function ManagerAdmin(props) {
     );
 }
 
-export default ManagerAdmin;
+export default ManagerUser;

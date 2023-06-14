@@ -1,14 +1,19 @@
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Country } from 'country-state-city';
+import Select from 'react-select';
 
 import { ToastError, ToastSuccess, updateUser } from '~/admin/utils';
-import getAvatar from '~/admin/utils/GetAvatar';
 import { PathUser } from '~/routers/PathUser';
+import getAvatar from '~/admin/utils/GetAvatar';
 
 function ProfileBtnEdit({ getInfoUser }) {
     const [showErrorName, setShowErrorName] = useState(false);
     const [showErrorFile, setShowErrorFile] = useState(false);
     const [avatar, setAvatar] = useState();
+
+    const countryData = Country.getAllCountries();
+    const selectData = countryData.map((obj) => ({ value: obj.name, label: obj.name }));
 
     const navigate = useNavigate();
 
@@ -16,10 +21,16 @@ function ProfileBtnEdit({ getInfoUser }) {
         name: '',
         address: '',
         phone: '',
-        region: '',
     };
 
     const [formData, setFormData] = useState(initUpdate);
+
+    const initValueSelected = {
+        value: getInfoUser.region,
+        label: getInfoUser.region,
+    };
+
+    const [valueSelected, setValueSelected] = useState(initValueSelected);
 
     useEffect(() => {
         setFormData(getInfoUser);
@@ -55,6 +66,10 @@ function ProfileBtnEdit({ getInfoUser }) {
         });
     };
 
+    const handleChangeSelect = (options) => {
+        setValueSelected(options);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
         if (formData.name === '') {
@@ -64,13 +79,16 @@ function ProfileBtnEdit({ getInfoUser }) {
             return;
         }
 
+        // console.log(formData);
+        // console.log(valueSelected);
+
         const formDataValid = new FormData();
         formDataValid.append('Id', getInfoUser.id);
         formDataValid.append('Email', getInfoUser.email);
         formDataValid.append('Name', formData.name);
         formDataValid.append('Address', formData.address);
         formDataValid.append('Phone', formData.phone);
-        formDataValid.append('Region', formData.region);
+        formDataValid.append('Region', valueSelected.value);
         formDataValid.append('photo', avatar);
 
         try {
@@ -179,13 +197,22 @@ function ProfileBtnEdit({ getInfoUser }) {
                                     <label className="profile__pages_detail--labels mt-2">Region:</label>
                                 </div>
                                 <div className="col-md-8">
-                                    <input
+                                    {/* <input
                                         type="text"
                                         name="region"
                                         placeholder="Enter Region"
                                         className="form-control profile__pages_detail--form-control"
                                         onChange={handleChangeInput}
                                         value={formData.region || ''}
+                                    /> */}
+                                    <Select
+                                        options={selectData}
+                                        defaultValue={valueSelected}
+                                        placeholder="Select to region"
+                                        onChange={handleChangeSelect}
+                                        isSearchable
+                                        isClearable
+                                        noOptionsMessage={() => 'Country not found'}
                                     />
                                 </div>
                             </div>
