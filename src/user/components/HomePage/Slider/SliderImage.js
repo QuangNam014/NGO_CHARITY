@@ -17,20 +17,17 @@ function SliderImage(props) {
         {
             image: 'assets/images/slider/slider-3.jpg',
             title: 'Most Stylish Free Travel Website.',
-            description:
-                'Journey to Brighter Futures: Showcasing the Lives of Courageous Children in Underserved Rural Communities',
+            description: 'Journey to Brighter Futures: Showcasing the Lives of Courageous Children in Underserved Rural Communities',
         },
         {
             image: 'assets/images/slider/slider-1.jpg',
             title: "It's time for better help.",
-            description:
-                "Bringing Joy to Far-Flung Communities: Supporting Children's Dreams in Poverty-Stricken Regions",
+            description: "Bringing Joy to Far-Flung Communities: Supporting Children's Dreams in Poverty-Stricken Regions",
         },
         {
             image: 'assets/images/slider/slider-2.jpg',
             title: 'Most Attractive Travel Template',
-            description:
-                'Beyond Boundaries: Exploring the Lives of Underprivileged Children in Isolated, Rural Environments',
+            description: 'Beyond Boundaries: Exploring the Lives of Underprivileged Children in Isolated, Rural Environments',
         },
     ];
 

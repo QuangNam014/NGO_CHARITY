@@ -1,13 +1,10 @@
 import CountUp from 'react-countup';
 
-function TotalDonate({ targetNumber }) {
+function TotalDonate({ targetNumber, title = 'Donation Campaign are running' }) {
     return (
         <div className="total-donate d-flex align-items-center">
             <span className="fa flaticon-cleaning"></span>
-            <h4>
-                Donation Campaign <br />
-                are running
-            </h4>
+            <h4>{title}</h4>
             <p className="d-flex align-items-center">
                 <span style={{ color: '#fff' }}>$</span>
                 <span>

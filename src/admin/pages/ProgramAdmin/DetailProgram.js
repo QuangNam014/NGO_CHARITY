@@ -1,26 +1,56 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+
 import { ModalComponent } from '~/admin/components';
+import { GetToTalPriceProgramId } from '~/admin/utils';
+import { PathAdmin } from '~/routers/PathAdmin';
+import AuthenticateAdmin from '~/admin/utils/AuthenticateAdmin';
 import InputProgram from './InputProgram';
+import CreateCashOut from './CreateCashOut';
 
 function DetailProgram({ item, listCategory }) {
     const [showModal, setShowModal] = useState(false);
-    const [selectedCategoryTitle, setSelectedCategoryTitle] = useState('');
-
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
-    // const handleDetailProgram = () => {
-    // console.log(item);
-    // };
+
+    const [showTotalProgram, setShowTotalProgram] = useState(null);
+
+    const [showModalCashOut, setShowModalCashOut] = useState(false);
+    const openModalCashOut = () => setShowModalCashOut(true);
+    const closeModalCashOut = () => setShowModalCashOut(false);
+
+    const { inforUser } = AuthenticateAdmin;
+
+    const navigate = useNavigate();
+
+    const getTotalPriceInProgram = async () => {
+        try {
+            GetToTalPriceProgramId(item.id)
+                .then((result) => {
+                    if (result.status === 200) {
+                        setShowTotalProgram(result.data);
+                    }
+                })
+                .catch((error) => {
+                    if (error.message === 'Network Error') {
+                        navigate(`../${PathAdmin.adminNotFound}`);
+                    } else {
+                        const errorValid = error.response.data; // {status, message}
+                        if (errorValid.status === 404) {
+                            console.clear();
+                            // ToastError(errorValid.message);
+                        }
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
+    };
 
     useEffect(() => {
-        const selectedCategory = listCategory.find((category) => category.id === item.category_Id);
-        if (selectedCategory) {
-            setSelectedCategoryTitle(selectedCategory.title);
-        } else {
-            setSelectedCategoryTitle('');
-        }
-    }, [item.category_Id]);
+        getTotalPriceInProgram();
+    }, []);
 
     return (
         <Fragment>
@@ -41,11 +71,49 @@ function DetailProgram({ item, listCategory }) {
                         <div className="row">
                             <div className="col-md-3 border-right">
                                 <div className="d-flex flex-column align-items-center text-center p-3">
-                                    <img
-                                        className="rounded-circle mt-5 profile__pages_detail--wrapper-img"
-                                        alt=""
-                                        src={item.image}
-                                    />
+                                    <img className="rounded-circle mt-5 profile__pages_detail--wrapper-img" alt="" src={item.image} />
+                                </div>
+                                <div>
+                                    <span className="font-weight-bold mt-2" style={{ fontSize: '20px' }}>
+                                        Total:
+                                    </span>
+                                    <span className="font-weight-bold mt-2 ml-2" style={{ fontSize: '20px' }}>
+                                        {showTotalProgram ? showTotalProgram.money.toLocaleString() : 0} $
+                                    </span>
+                                    <div className="mt-3 ">
+                                        <span
+                                            className={`label ${
+                                                item.status === 'NO COMING'
+                                                    ? 'label-success'
+                                                    : item.status === 'COMING'
+                                                    ? 'label-warning'
+                                                    : item.status === 'CLOSE'
+                                                    ? 'label-danger'
+                                                    : ''
+                                            }`}
+                                        >
+                                            {item.status}
+                                        </span>
+                                    </div>
+                                    <div className="col-md-12 mt-3">
+                                        {item && item.status === 'CLOSE' && inforUser.role === 'Manager' && (
+                                            <button
+                                                type="button"
+                                                style={{ backgroundColor: '#632778' }}
+                                                className="btn mt-3 btn-info border-bottom"
+                                                data-toggle="tooltip"
+                                                data-placement="bottom"
+                                                title="cash out"
+                                                onClick={openModalCashOut}
+                                            >
+                                                <i className="fa-solid fa-money-bill-1-wave mr-2"></i>Cash Out
+                                            </button>
+                                        )}
+
+                                        <ModalComponent showModal={showModalCashOut} closeModal={closeModalCashOut} contentLabel="Create Cash Out">
+                                            <CreateCashOut closeModal={closeModalCashOut} item={item} inforUser={inforUser} />
+                                        </ModalComponent>
+                                    </div>
                                 </div>
                             </div>
 
@@ -55,20 +123,8 @@ function DetailProgram({ item, listCategory }) {
                                         <h4 className="text-right">Create Program</h4>
                                     </div>
 
-                                    <InputProgram
-                                        labelName="Title"
-                                        inputName="title"
-                                        defaultValue={item.title}
-                                        readOnly
-                                    />
-                                    <InputProgram
-                                        labelName="Budget"
-                                        inputName="budget"
-                                        inputType="number"
-                                        min={0}
-                                        defaultValue={item.budget}
-                                        readOnly
-                                    />
+                                    <InputProgram labelName="Title" inputName="title" defaultValue={item.title} readOnly />
+                                    <InputProgram labelName="Budget" inputName="budget" inputType="number" value={item.budget} readOnly />
 
                                     <div className="row mt-2">
                                         <div className="col-md-12 text-left">
@@ -79,7 +135,7 @@ function DetailProgram({ item, listCategory }) {
                                                 type="text"
                                                 name="category_id"
                                                 className="form-control profile__pages_detail--form-control"
-                                                defaultValue={selectedCategoryTitle}
+                                                defaultValue={listCategory.find((cate) => cate.id === item.categoryId)?.title}
                                                 readOnly
                                             />
                                         </div>
@@ -110,8 +166,8 @@ function DetailProgram({ item, listCategory }) {
                         </div>
 
                         <div className="mt-5 text-center">
-                            <button className="btn profile__pages_detail--profile-button" type="submit">
-                                Saved Profile
+                            <button className="btn profile__pages_detail--profile-button" type="submit" onClick={closeModal}>
+                                Closed Profile
                             </button>
                         </div>
                     </div>

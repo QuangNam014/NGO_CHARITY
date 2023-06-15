@@ -17,7 +17,7 @@ function CreateProgram({ fetchApiProgram, closeModal, listCategory }) {
         budget: '',
         description: '',
         category_id: '',
-        status: 'no coming',
+        status: 'NO COMING',
     };
 
     const onSubmit = (data) => {

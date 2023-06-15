@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react';
+import { Fragment, useState } from 'react';
+
 import { ModalComponent } from '~/admin/components';
 import InputToolTip from '~/admin/components/TippyTooltip/InputToolTip';
 
@@ -8,7 +9,7 @@ function DetailDonate({ receipt, userName, programTitle }) {
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
 
-    const formattedValue = `${receipt.Money.toLocaleString('en-US')} $`;
+    const formattedValue = `${receipt.money.toLocaleString('en-US')} $`;
 
     return (
         <Fragment>
@@ -71,7 +72,7 @@ function DetailDonate({ receipt, userName, programTitle }) {
                                             type="text"
                                             className="form-control profile__pages_detail--form-control"
                                             rows="8"
-                                            defaultValue={receipt.Description}
+                                            defaultValue={receipt.description}
                                             readOnly
                                         ></textarea>
                                     </div>
