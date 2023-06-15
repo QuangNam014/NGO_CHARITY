@@ -21,7 +21,7 @@ function ProfileBtnDonate({ getInfoUser }) {
     };
 
     const tabColors = ['green', '#ff8500', 'red'];
-    const tabStatus = ['NO COMING', 'COMING', 'CLOSE'];
+    const tabStatus = ['UP_COMING', 'COMING', 'CLOSE'];
 
     const groupedRecords = tabStatus.map((status) => {
         return listReceiptUserProgram.filter((record) => record.status === status && record.userId === inforUser.id);

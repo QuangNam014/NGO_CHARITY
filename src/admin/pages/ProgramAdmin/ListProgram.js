@@ -93,7 +93,7 @@ function ListProgram({ listCategory, listProgram, setListProgram, fetchApiProgra
                                     <td>
                                         <span
                                             className={`label ${
-                                                item.status === 'NO COMING'
+                                                item.status === 'UP_COMING'
                                                     ? 'label-success'
                                                     : item.status === 'COMING'
                                                     ? 'label-warning'
@@ -112,6 +112,7 @@ function ListProgram({ listCategory, listProgram, setListProgram, fetchApiProgra
                                         <UpdateProgram item={item} listCategory={listCategory} fetchApiProgram={fetchApiProgram} />
 
                                         <button
+                                            hidden
                                             type="button"
                                             className="btn mb-1 ml-2 btn-outline-danger"
                                             data-toggle="tooltip"

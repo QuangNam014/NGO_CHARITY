@@ -23,12 +23,12 @@ function UpdateCheckRadioStatus({ value, handleChange }) {
                         type="radio"
                         id="noComing"
                         name="status"
-                        value="NO COMING"
-                        defaultChecked={value === 'NO COMING'}
+                        value="UP_COMING"
+                        defaultChecked={value === 'UP_COMING'}
                         onChange={handleChange}
                     />
                     <label htmlFor="noComing">
-                        <span className="ml-2 mt-1 label label-success">NO COMING</span>
+                        <span className="ml-2 mt-1 label label-success">UP_COMING</span>
                     </label>
                 </div>
             )}
