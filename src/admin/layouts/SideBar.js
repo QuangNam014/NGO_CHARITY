@@ -18,7 +18,7 @@ function SideBar(props) {
                             <span className="admin__layouts__sidebar--nav-text">Dashboard</span>
                         </Link>
                     </li>
-                    <li>
+                    <li >
                         <Link to={PathAdmin.adminDonation} aria-expanded="false">
                             <i className="icon-speedometer menu-icon"></i>
                             <span className="admin__layouts__sidebar--nav-text">Donation</span>
@@ -37,12 +37,26 @@ function SideBar(props) {
                         </Link>
                     </li>
                     {isRole && (
-                        <li>
-                            <Link to={PathAdmin.adminManager} aria-expanded="false">
-                                <i className="icon-speedometer menu-icon"></i>
-                                <span className="admin__layouts__sidebar--nav-text">Quản lý Admin</span>
-                            </Link>
-                        </li>
+                        <>
+                    <li>
+                        <Link to={PathAdmin.adminManager} aria-expanded="false">
+                            <i className="icon-speedometer menu-icon"></i>
+                            <span className="admin__layouts__sidebar--nav-text">Quản lý Admin</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to={PathAdmin.adminCategory} aria-expanded="false">
+                            <i className="icon-speedometer menu-icon"></i>
+                            <span className="admin__layouts__sidebar--nav-text">Category</span>
+                        </Link>
+                    </li>
+                    <li>
+                        <Link to={PathAdmin.adminContact} aria-expanded="false">
+                            <i className="icon-speedometer menu-icon"></i>
+                            <span className="admin__layouts__sidebar--nav-text">Contact</span>
+                        </Link>
+                    </li>
+                    </>
                     )}
                 </ul>
             </div>

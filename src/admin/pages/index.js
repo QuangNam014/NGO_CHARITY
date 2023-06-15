@@ -1,4 +1,5 @@
 export { default as DashBoard } from './DashBoard/DashBoard';
+export {default as ContactForm} from "./ContactForm"
 export { default as WorldMapChart } from './DashBoard/WorldMapChart';
 
 export { default as Donation } from './Donation/Donation';
