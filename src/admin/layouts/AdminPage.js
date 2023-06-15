@@ -1,36 +1,80 @@
-import { Fragment } from 'react';
+/* eslint-disable react-hooks/exhaustive-deps */
+import { Fragment, useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+import { PathAdmin } from '~/routers/PathAdmin';
+import { ToastError, getUser } from '../utils';
+import { ContentPage } from '../pages';
+import AuthenticateAdmin from '../utils/AuthenticateAdmin';
 import NavHeader from './NavHeader';
 import SideBar from './SideBar';
 import Footer from './Footer';
 import Header from './Header';
-import Loader from './Loader';
-
-import { ContentPage } from '../pages';
+// import Loader from './Loader';
 
 function AdminPage(props) {
+    const [getInfoUser, setGetInfoUser] = useState({});
+
+    const { inforUser } = AuthenticateAdmin;
+
+    const navigate = useNavigate();
+
+    const fetchApiGetUser = () => {
+        if (inforUser) {
+            try {
+                getUser(inforUser.email)
+                    .then((result) => {
+                        if (result.status === 200) {
+                            setGetInfoUser(result.data);
+                        }
+                    })
+                    .catch((error) => {
+                        if (error.message === 'Network Error') {
+                            navigate(`../${PathAdmin.adminNotFound}`);
+                        } else {
+                            const errorValid = error.response.data;
+                            if (errorValid.status === 404) {
+                                ToastError(errorValid.message);
+                            }
+                        }
+                    });
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
+
+    useEffect(() => {
+        fetchApiGetUser();
+    }, []);
+
     return (
-        // <RouterProvider router={router}>
         <Fragment>
-            {/* Loader */}
-            {/* <Loader /> */}
-            {/* <div id="admin__layouts--main-wrapper" className='show menu-toggle'> */}
-            {/* Nav Header */}
-            <NavHeader />
+            <ToastContainer />
 
-            {/* header */}
-            <Header />
+            <div>
+                {/* Loader */}
+                {/* <Loader /> */}
+                {/* <div id="admin__layouts--main-wrapper" className='show menu-toggle'> */}
+                {/* Nav Header */}
+                <NavHeader />
 
-            {/* Side bar */}
-            <SideBar />
+                {/* header */}
+                <Header getInfoUser={getInfoUser} />
 
-            {/* Content */}
-            <ContentPage />
+                {/* Side bar */}
+                <SideBar />
 
-            {/* Footer */}
-            <Footer />
-            {/* </div> */}
+                {/* Content */}
+                <ContentPage />
+
+                {/* Footer */}
+                <Footer />
+                {/* </div> */}
+            </div>
         </Fragment>
-        // </RouterProvider>
     );
 }
 

@@ -1,31 +1,33 @@
 import { Fragment } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import { Header, Footer, ContentPage } from './user';
-
-
-
-
+import { DataProvider } from './user/stores';
 
 function App() {
-  return (
-    <Fragment>
-            {/* Loader sẽ làm sau cùng */}
-            {/* <div className="spinner-border text-muted"></div> */}    
+    return (
+        <DataProvider>
+            <Fragment>
+                <ToastContainer />
 
-            {/* Header begin */}
+                {/* Loader sẽ làm sau cùng */}
+                {/* <div className="spinner-border text-muted"></div> */}
+
+                {/* Header begin */}
                 <Header />
-            {/* Header end */}
+                {/* Header end */}
 
-            {/* Content begin */}
+                {/* Content begin */}
                 <ContentPage />
-            {/* Content end */}
-                
-            {/* Footer begin */}
-                <Footer />
-            {/* Footer begin */}
+                {/* Content end */}
 
-      </Fragment>
-  );
+                {/* Footer begin */}
+                <Footer />
+                {/* Footer begin */}
+            </Fragment>
+        </DataProvider>
+    );
 }
 
 export default App;
