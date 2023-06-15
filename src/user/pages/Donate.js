@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ToastError, getListCategory, getListProgram } from '~/admin';
@@ -8,7 +9,7 @@ function Donate(props) {
     const [listCategory, setListCategory] = useState([]);
     const [filter, setFilter] = useState('');
     const [filteredData, setFilteredData] = useState([]);
-    // const [displayLimit, setDisplayLimit] = useState(3);
+    
     const navigate = useNavigate();
 
     const handleDonate = (program) => {
@@ -20,13 +21,11 @@ function Donate(props) {
     };
 
     const fetchApiProgram = () => {
-        // setIsLoading(true);
         try {
             getListProgram()
                 .then((result) => {
                     if (result.status === 200) {
                         setTimeout(() => {
-                            // console.log(result.data);
                             setListProgram(result.data);
                         }, 1500);
                     }
@@ -47,7 +46,6 @@ function Donate(props) {
     };
 
     const fetchApiCategory = () => {
-        // setIsLoading(true);
         try {
             getListCategory()
                 .then((result) => {
@@ -59,7 +57,7 @@ function Donate(props) {
                     if (error.message === 'Network Error') {
                         navigate(`${PathUser.userNotFound}`);
                     } else {
-                        const errorValid = error.response.data; // {status, message}
+                        const errorValid = error.response.data; 
                         if (errorValid.status === 404) {
                             ToastError(errorValid.message);
                         }
@@ -77,7 +75,6 @@ function Donate(props) {
         const filterData = listProgram.filter((item) => item.categoryId === filter && item.status === 'COMING');
         setFilteredData(filterData);
     }, [filter]);
-
 
     return (
         <Fragment>
@@ -148,7 +145,7 @@ function Donate(props) {
                                           <div>
                                               <span
                                                   className={`desic label ${
-                                                      program.status === 'NO COMING'
+                                                      program.status === 'UP_COMING'
                                                           ? 'label-success'
                                                           : program.status === 'COMING'
                                                           ? 'label-warning'

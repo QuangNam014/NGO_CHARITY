@@ -35,7 +35,7 @@ function DetailDonateUser({ item }) {
                                     <div className="col-md-12">
                                         <input
                                             type="text"
-                                            name="category_id"
+                                            name="categoryId"
                                             className="form-control profile__pages_detail--form-control"
                                             defaultValue={item.name}
                                             readOnly
@@ -50,7 +50,7 @@ function DetailDonateUser({ item }) {
                                     <div className="col-md-12">
                                         <input
                                             type="text"
-                                            name="category_id"
+                                            name="categoryId"
                                             className="form-control profile__pages_detail--form-control"
                                             defaultValue={item.programName}
                                             readOnly
@@ -94,7 +94,7 @@ function DetailDonateUser({ item }) {
                                     <div className="col-md-12">
                                         <input
                                             type="text"
-                                            name="category_id"
+                                            name="categoryId"
                                             className="form-control profile__pages_detail--form-control"
                                             defaultValue={item.status}
                                             readOnly

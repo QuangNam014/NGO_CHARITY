@@ -68,7 +68,7 @@ function BodyCreateProgram({ fomik, avatar, setAvatar, setShowErrorFile, showErr
                             <label className="profile__pages_detail--labels mt-2">Category</label>
                         </div>
                         <div className="col-md-12">
-                            <select className="form-select" name="category_id" onChange={fomik.handleChange} value={fomik.values.category_id}>
+                            <select className="form-select" name="categoryId" onChange={fomik.handleChange} value={fomik.values.categoryId}>
                                 <option defaultValue={'---'}>Open this select menu</option>
                                 {listCategory.map((item) => (
                                     <option key={item.id} value={item.id}>

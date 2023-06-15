@@ -83,7 +83,7 @@ function DetailProgram({ item, listCategory }) {
                                     <div className="mt-3 ">
                                         <span
                                             className={`label ${
-                                                item.status === 'NO COMING'
+                                                item.status === 'UP_COMING'
                                                     ? 'label-success'
                                                     : item.status === 'COMING'
                                                     ? 'label-warning'
@@ -133,7 +133,7 @@ function DetailProgram({ item, listCategory }) {
                                         <div className="col-md-12">
                                             <input
                                                 type="text"
-                                                name="category_id"
+                                                name="categoryId"
                                                 className="form-control profile__pages_detail--form-control"
                                                 defaultValue={listCategory.find((cate) => cate.id === item.categoryId)?.title}
                                                 readOnly
