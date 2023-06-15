@@ -1,0 +1,120 @@
+/* DetailsAboutCSSmodule.css */
+
+.details-container {
+  padding: 20px;
+}
+
+.details-title {
+  font-size: 24px;
+  text-align: center;
+  color: #333;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+}
+
+.details-content {
+  margin-top: 20px;
+}
+
+.details-field {
+  margin-bottom: 20px;
+}
+
+.details-field label {
+  font-weight: bold;
+  color: #555;
+}
+
+.details-field p {
+  margin: 0;
+  color: #777;
+}
+
+.details-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+}
+
+.loading-text {
+  text-align: center;
+  font-style: italic;
+  color: #999;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+.modal-content {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+.details-container {
+  background-color: #f8f8f8;
+  border-radius: 5px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.details-title {
+  color: #333;
+  font-size: 26px;
+  margin-bottom: 15px;
+}
+
+.details-field label {
+  color: #555;
+  font-weight: bold;
+}
+
+.details-field p {
+  color: #777;
+  margin-top: 5px;
+}
+
+.details-image {
+  max-width: 100%;
+  height: auto;
+  margin-top: 10px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.details-image:hover {
+  transform: scale(1.05);
+}
+
+.modal-content {
+  background-color: #fff;
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+.modal-overlay {
+  background-color: rgba(47, 46, 46, 0.75);
+}
+
+.modal-content {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(-50%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

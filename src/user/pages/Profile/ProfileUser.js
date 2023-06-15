@@ -36,11 +36,11 @@ function ProfileUser(props) {
             break;
     }
 
-    useEffect(() => {
-        if (!inforUser && location.pathname === '/profile') {
-            navigate(`../${PathUser.user}`);
-        }
-    }, [!inforUser, location.pathname]);
+    // useEffect(() => {
+    //     if (!inforUser && location.pathname === '/profile') {
+    //         navigate(`../${PathUser.user}`);
+    //     }
+    // }, [!inforUser, location.pathname]);
 
     return (
         <div>

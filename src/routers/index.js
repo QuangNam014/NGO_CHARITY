@@ -3,6 +3,7 @@ import { createBrowserRouter } from 'react-router-dom';
 import App from '../App';
 import { PathUser } from './PathUser';
 import { PathAdmin } from './PathAdmin';
+
 import {
     AboutUs,
     Donate,
@@ -23,6 +24,7 @@ import {
     NotFoundAdmin,
     PrivateAdmin,
     Profile,
+    AboutAdmin,
 } from '../admin';
 
 const router = createBrowserRouter([
@@ -79,6 +81,10 @@ const router = createBrowserRouter([
             {
                 path: PathAdmin.adminProfile,
                 element: <Profile />,
+            },
+            {
+                path: PathAdmin.adminAbout,
+                element: <AboutAdmin />,
             },
         ],
     },

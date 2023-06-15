@@ -6,4 +6,6 @@ export const PathAdmin = {
     adminProfile: 'profile',
     adminNotFound: 'admin/*',
     adminLogin: '/admin/login',
+    // hieu
+    adminAbout: 'about_admin', 
 };

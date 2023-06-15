@@ -46,3 +46,10 @@ export const updateUser = async (email, formData) => {
     const data = await axios.put(`http://localhost:5065/api/User/UpdateUser/${email}`, formData);
     return data.data;
 };
+
+
+// AboutAdmin
+export const editAbout = async(id, formData) => {
+    const data = await axios.put(`http://localhost:5065/api/About/${id}`, formData);
+    return data.data;
+}

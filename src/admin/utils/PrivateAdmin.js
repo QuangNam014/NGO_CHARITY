@@ -8,9 +8,9 @@ function PrivateAdmin({ children }) {
     const tokenLocal = localStorage.getItem('token');
     const isLogginAdmin = checkLoginToken === null && tokenLocal === null;
 
-    if (isLogginAdmin) {
-        return <Navigate to={PathAdmin.adminLogin} replace />;
-    }
+    // if (isLogginAdmin) {
+    //     return <Navigate to={PathAdmin.adminLogin} replace />;
+    // }
     return children;
 }
 
