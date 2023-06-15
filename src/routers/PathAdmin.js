@@ -6,6 +6,8 @@ export const PathAdmin = {
     adminManagerUser: 'manager_user',
     adminProgram: 'program',
     adminProfile: 'profile',
+    adminCategory: 'category',
+    adminContact: 'contact_form',
     adminNotFound: 'admin/*',
     adminLogin: '/admin/login',
 };

@@ -1,4 +1,5 @@
 export { default as ContentPage } from './ContentPage';
+export {default as ContactForm} from "./ContactForm"
 export { default as DashBoard } from './DashBoard/DashBoard';
 export { default as Donation } from './Donation/Donation';
 export { default as ManagerAdmin } from './ManagerAdmin/ManagerAdmin';

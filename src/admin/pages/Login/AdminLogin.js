@@ -34,9 +34,12 @@ function AdminLogin(props) {
     };
 
     const onSubmit = (data) => {
+        console.log(data);
         try {
             LoginModel(data)
                 .then((result) => {
+                    console.log(result);
+
                     if (result.status === 200) {
                         localStorage.setItem('token', result.data.token);
                         localStorage.setItem('inforUser', JSON.stringify(result.data.inforUser));
@@ -48,6 +51,8 @@ function AdminLogin(props) {
                     }
                 })
                 .catch((error) => {
+                    console.log(error);
+
                     if (error.message === 'Network Error') {
                         navigate(`../${PathAdmin.adminNotFound}`);
                     } else {

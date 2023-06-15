@@ -17,6 +17,7 @@ import {
 } from '../user';
 import {
     AdminLogin,
+    ContactForm,
     AdminPage,
     DashBoard,
     Donation,
@@ -27,6 +28,7 @@ import {
     Profile,
     ProgramAdmin,
 } from '../admin';
+import Category from '~/admin/pages/Category/Category';
 
 const router = createBrowserRouter([
     {
@@ -78,6 +80,14 @@ const router = createBrowserRouter([
             {
                 path: PathAdmin.adminDonation,
                 element: <Donation />,
+            },
+            {
+                path: PathAdmin.adminCategory,
+                element: <Category />,
+            },
+            {
+                path: PathAdmin.adminContact,
+                element: <ContactForm />,
             },
             {
                 path: PathAdmin.adminManager,
