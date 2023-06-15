@@ -39,7 +39,11 @@ function EditAboutAdmin({ item, fetchApiAbout }) {
 
     useEffect(() => {
         setFormData(item);
-    }, []);
+
+        return () => {
+            image && URL.revokeObjectURL(image.pre);
+        };
+    }, [image]);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -52,7 +56,7 @@ function EditAboutAdmin({ item, fetchApiAbout }) {
         } else {
             setShowErrorFile(true);
         }
-
+        file.pre = URL.createObjectURL(file);
         setImage(file);
     };
 
@@ -164,7 +168,7 @@ function EditAboutAdmin({ item, fetchApiAbout }) {
                                 </div>
                                 {image && (
                                     <div className="form-group">
-                                        <img src={image} alt="About" className="edit-about-image" />
+                                        <img width={100} src={image.pre} alt="avatar" />
                                     </div>
                                 )}
                                 <div className="form-group">

@@ -1,4 +1,3 @@
-export default ContactForm;
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import PieChartContactWeek from './PieChartContactWeek';
@@ -114,17 +113,17 @@ function ContactForm(props) {
                 </div>
                 <div className="card text-center" style={{ minWidth: 500 }}>
                     <div className="form-validation">
-                        <div class="modal fade" id="modalPush" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                            <div class="modal-dialog modal-notify modal-info" role="document">
-                                <div class="modal-content text-center">
+                        <div className="modal fade" id="modalPush" tabIndex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                            <div className="modal-dialog modal-notify modal-info" role="document">
+                                <div className="modal-content text-center">
                                     <div className="modal-header d-flex justify-content-center align-items-center">
                                         <div>
                                             <h5 className="modal-title">{selectedContact && selectedContact.name}</h5>
                                             <p className="text-muted">Message</p>
                                         </div>
                                     </div>
-                                    <div class="modal-body">
-                                        <i class="fas fa-bell fa-4x animated rotateIn mb-4"></i>
+                                    <div className="modal-body">
+                                        <i className="fas fa-bell fa-4x animated rotateIn mb-4"></i>
                                         <p>{selectedContact && selectedContact.message}</p>
                                     </div>
                                     {selectedContact && (
@@ -247,3 +246,5 @@ function ContactForm(props) {
         </div>
     );
 }
+
+export default ContactForm;
