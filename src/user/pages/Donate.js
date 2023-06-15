@@ -9,7 +9,7 @@ function Donate(props) {
     const [listCategory, setListCategory] = useState([]);
     const [filter, setFilter] = useState('');
     const [filteredData, setFilteredData] = useState([]);
-    
+
     const navigate = useNavigate();
 
     const handleDonate = (program) => {
@@ -34,7 +34,7 @@ function Donate(props) {
                     if (error.message === 'Network Error') {
                         navigate(`../${PathUser.userNotFound}`);
                     } else {
-                        const errorValid = error.response.data; // {status, message}
+                        const errorValid = error.response.data;
                         if (errorValid.status === 404) {
                             ToastError(errorValid.message);
                         }

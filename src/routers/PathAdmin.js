@@ -10,4 +10,5 @@ export const PathAdmin = {
     adminContact: 'contact_form',
     adminNotFound: 'admin/*',
     adminLogin: '/admin/login',
+    adminAbout: 'about_admin',
 };

@@ -125,3 +125,9 @@ export const getListCategory = async () => {
     const data = await axios.get('http://localhost:5065/api/Category/GetCategories');
     return data.data;
 };
+
+// About
+export const editAbout = async(id, formData) => {
+    const data = await axios.put(`http://localhost:5065/api/About/${id}`, formData);
+    return data.data;
+}

@@ -29,6 +29,7 @@ import {
     ProgramAdmin,
 } from '../admin';
 import Category from '~/admin/pages/Category/Category';
+import AboutAdmin from '~/admin/pages/About/AboutAdmin';
 
 const router = createBrowserRouter([
     {
@@ -104,6 +105,10 @@ const router = createBrowserRouter([
             {
                 path: PathAdmin.adminProgram,
                 element: <ProgramAdmin />,
+            },
+            {
+                path: PathAdmin.adminAbout,
+                element: <AboutAdmin />,
             },
         ],
     },

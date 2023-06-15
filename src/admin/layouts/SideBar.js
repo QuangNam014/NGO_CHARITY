@@ -36,6 +36,12 @@ function SideBar(props) {
                             <span className="admin__layouts__sidebar--nav-text">Quản lý User</span>
                         </Link>
                     </li>
+                    <li>
+                        <Link to={PathAdmin.adminAbout} aria-expanded="false">
+                            <i className="icon-speedometer menu-icon"></i>
+                            <span className="admin__layouts__sidebar--nav-text">About Management</span>
+                        </Link>
+                    </li>
                     {isRole && (
                         <>
                     <li>
