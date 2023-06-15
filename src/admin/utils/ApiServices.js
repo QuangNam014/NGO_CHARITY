@@ -89,3 +89,39 @@ export const GetListUserReceipt = async () => {
     const data = await axios.get('http://localhost:5065/api/User/GetListUserReceipt');
     return data.data;
 };
+
+export const GetAllReceipt = async () => {
+    const data = await axios.get('http://localhost:5065/api/Receipt/GetAllReceipt');
+    return data.data;
+};
+
+export const GetReceiptUserProgram = async () => {
+    const data = await axios.get(`http://localhost:5065/api/Chart/GetListReceiptUserProgram`);
+    return data.data;
+};
+// Cash
+export const GetToTalPriceInNull = async () => {
+    const data = await axios.get('http://localhost:5065/api/Cash/TotalPriceIn');
+    return data.data;
+};
+
+export const withDraw = async (value) => {
+    const data = await axios.post('http://localhost:5065/api/Cash/Withdraw', value);
+    return data.data;
+};
+
+export const Donate = async (value) => {
+    const data = await axios.post('http://localhost:5065/api/Cash/Donate', value);
+    return data.data;
+};
+
+export const GetToTalPriceProgramId = async (id) => {
+    const data = await axios.get(`http://localhost:5065/api/Cash/TotalPriceIn?programId=${id}`);
+    return data.data;
+};
+
+// Category
+export const getListCategory = async () => {
+    const data = await axios.get('http://localhost:5065/api/Category/GetCategories');
+    return data.data;
+};

@@ -3,11 +3,11 @@ import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 import { ToastError, getUser } from '~/admin/utils';
+import { PathAdmin } from '~/routers/PathAdmin';
 import AuthenticateAdmin from '~/admin/utils/AuthenticateAdmin';
 import ProfileBtn from './ProfileBtn';
 import getAvatar from '~/admin/utils/GetAvatar';
 import './Profile.css';
-import { PathAdmin } from '~/routers/PathAdmin';
 
 function Profile(props) {
     const { inforUser } = AuthenticateAdmin;
@@ -51,11 +51,7 @@ function Profile(props) {
                 <div>
                     {inforUser && getInfoUser && (
                         <div className="admin__pages__profile--wrapper-content">
-                            <img
-                                alt=""
-                                className="admin__pages__profile--wrapper-content-img"
-                                src={getAvatar(getInfoUser.image)}
-                            />
+                            <img alt="" className="admin__pages__profile--wrapper-content-img" src={getAvatar(getInfoUser.image)} />
                             <span className="font-weight-bold">{getInfoUser.role}</span>
                             <span className="font-weight-bold mt-2" style={{ fontSize: '20px' }}>
                                 {getInfoUser.name}
@@ -63,6 +59,7 @@ function Profile(props) {
                             <span className="text-black-50" style={{ fontSize: '20px' }}>
                                 {getInfoUser.email}
                             </span>
+
                             <ProfileBtn getInfoUser={getInfoUser} fetchApiGetUser={fetchApiGetUser} />
                         </div>
                     )}

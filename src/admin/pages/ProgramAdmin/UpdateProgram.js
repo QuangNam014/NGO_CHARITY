@@ -7,9 +7,11 @@ import { ToastError, ToastSuccess, updateProgram } from '~/admin/utils';
 import { ModalComponent } from '~/admin/components';
 import { PathAdmin } from '~/routers/PathAdmin';
 import InputProgram from './InputProgram';
+import UpdateCheckRadioStatus from './UpdateCheckRadioStatus';
 
 function UpdateProgram({ item, listCategory, fetchApiProgram }) {
     const [showModal, setShowModal] = useState(false);
+
     const closeModal = () => setShowModal(false);
 
     const [showErrorFile, setShowErrorFile] = useState(false);
@@ -20,19 +22,22 @@ function UpdateProgram({ item, listCategory, fetchApiProgram }) {
         title: '',
         budget: '',
         description: '',
-        category_id: '',
-        status: 'no coming',
+        categoryId: '',
+        status: '',
     };
 
     const onSubmit = (data) => {
+        console.log(data);
+
         const formDataValid = new FormData();
         formDataValid.append('id', item.id);
         formDataValid.append('title', data.title);
         formDataValid.append('budget', data.budget);
         formDataValid.append('description', data.description);
-        formDataValid.append('category_id', data.category_id);
+        formDataValid.append('categoryId', data.categoryId);
         formDataValid.append('status', data.status);
         formDataValid.append('file', avatar);
+
         try {
             updateProgram(item.id, formDataValid)
                 .then((result) => {
@@ -62,7 +67,7 @@ function UpdateProgram({ item, listCategory, fetchApiProgram }) {
         title: Yup.string().required('title is required'),
         budget: Yup.string().required('budget is required'),
         description: Yup.string().required('description is required'),
-        category_id: Yup.string().required('category_id is required'),
+        categoryId: Yup.string().required('categoryId is required'),
     });
 
     const fomik = useFormik({
@@ -76,7 +81,8 @@ function UpdateProgram({ item, listCategory, fetchApiProgram }) {
         fomik.setFieldValue('title', item.title);
         fomik.setFieldValue('budget', item.budget);
         fomik.setFieldValue('description', item.description);
-        fomik.setFieldValue('category_id', item.category_Id);
+        fomik.setFieldValue('categoryId', item.categoryId);
+        fomik.setFieldValue('status', item.status);
     };
 
     const handleAvatar = (e) => {
@@ -121,11 +127,7 @@ function UpdateProgram({ item, listCategory, fetchApiProgram }) {
                         <div className="row">
                             <div className="col-md-4 border-right">
                                 <div className="d-flex flex-column align-items-center text-center p-3">
-                                    <img
-                                        className="rounded-circle mt-5 profile__pages_detail--wrapper-img"
-                                        alt=""
-                                        src={item ? item.image : ''}
-                                    />
+                                    <img className="rounded-circle mt-5 profile__pages_detail--wrapper-img" alt="" src={item ? item.image : ''} />
                                     <input className="mt-2 mb-2" type="file" name="photo" onChange={handleAvatar} />
                                     {avatar && !showErrorFile && <img width={100} src={avatar.pre} alt="avatar" />}
                                     {showErrorFile && <div className="text-danger">Allow file jpeg, png, gif</div>}
@@ -164,19 +166,11 @@ function UpdateProgram({ item, listCategory, fetchApiProgram }) {
                                             <label className="profile__pages_detail--labels mt-2">Category</label>
                                         </div>
                                         <div className="col-md-12">
-                                            <select
-                                                className="form-select"
-                                                name="category_id"
-                                                onChange={fomik.handleChange}
-                                                value={fomik.values.category_id}
-                                            >
-                                                <option value="">Open this select menu</option>
-                                                {listCategory.map((item) => (
-                                                    <option key={item.id} value={item.id}>
-                                                        {item.title}
-                                                    </option>
-                                                ))}
-                                            </select>
+                                            <input
+                                                className="form-control profile__pages_detail--form-control"
+                                                defaultValue={listCategory.find((cate) => cate.id === fomik.values.categoryId)?.title}
+                                                readOnly
+                                            />
                                         </div>
                                     </div>
                                 </div>
@@ -184,19 +178,29 @@ function UpdateProgram({ item, listCategory, fetchApiProgram }) {
 
                             <div className="col-md-4 border-right">
                                 <div>
-                                    <div className="row mt-5">
+                                    <div className="row mt-3">
                                         <div className="col-md-12" style={{ textAlign: 'left' }}>
                                             <label className="profile__pages_detail--labels mt-2">Description:</label>
                                         </div>
                                         <div className="col-md-12">
                                             <textarea
                                                 type="text"
+                                                rows={4}
                                                 name="description"
                                                 placeholder="Enter description"
                                                 className="form-control profile__pages_detail--form-control"
                                                 onChange={fomik.handleChange}
                                                 value={fomik.values.description}
                                             ></textarea>
+                                        </div>
+                                    </div>
+
+                                    <div className="row mt-3">
+                                        <div className="col-md-12" style={{ textAlign: 'left' }}>
+                                            <label className="profile__pages_detail--labels mt-2">Status:</label>
+                                        </div>
+                                        <div className="col-md-12">
+                                            <UpdateCheckRadioStatus item={item} value={fomik.values.status} handleChange={fomik.handleChange} />
                                         </div>
                                     </div>
                                 </div>

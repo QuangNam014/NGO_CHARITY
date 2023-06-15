@@ -1,4 +1,5 @@
-import React, { Fragment, useState } from 'react';
+import { Fragment, useState } from 'react';
+
 import { ModalComponent } from '~/admin/components';
 import getAvatar from '~/admin/utils/GetAvatar';
 
@@ -115,11 +116,7 @@ function InforUser({ item, getInfoUser }) {
                                     </div>
 
                                     <div className="mt-5 text-center">
-                                        <button
-                                            onClick={closeModal}
-                                            className="btn profile__pages_detail--profile-button"
-                                            type="button"
-                                        >
+                                        <button onClick={closeModal} className="btn profile__pages_detail--profile-button" type="button">
                                             Close Profile
                                         </button>
                                     </div>

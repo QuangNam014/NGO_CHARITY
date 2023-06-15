@@ -1,8 +1,8 @@
 import { Fragment, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
-import { ModalComponent } from '~/admin/components';
 import { ToastError, ToastSuccess, updateUser } from '~/admin/utils';
+import { ModalComponent } from '~/admin/components';
 import { PathAdmin } from '~/routers/PathAdmin';
 import InputToolTip from '~/admin/components/TippyTooltip/InputToolTip';
 import getAvatar from '~/admin/utils/GetAvatar';
@@ -107,13 +107,7 @@ function ProfileBtnEdit({ getInfoUser, fetchApiGetUser }) {
 
     return (
         <Fragment>
-            <InputToolTip
-                content="Edit"
-                placement="bottom"
-                classBtn="btn-warning"
-                icon="fa-solid fa-pen-to-square"
-                openModal={openModal}
-            />
+            <InputToolTip content="Edit" placement="bottom" classBtn="btn-warning" icon="fa-solid fa-pen-to-square" openModal={openModal} />
             <ModalComponent showModal={showModal} closeModal={closeModal} contentLabel="Infor Admin">
                 <form onSubmit={handleSubmit} method="post">
                     <div className="container rounded bg-white  profile__pages_detail--wrapper">
@@ -151,9 +145,7 @@ function ProfileBtnEdit({ getInfoUser, fetchApiGetUser }) {
                                                 value={formData.name}
                                             />
                                             {showErrorName && (
-                                                <p style={{ marginTop: '-20px', textAlign: 'left', color: 'red' }}>
-                                                    Name is not required
-                                                </p>
+                                                <p style={{ marginTop: '-20px', textAlign: 'left', color: 'red' }}>Name is not required</p>
                                             )}
                                         </div>
                                     </div>
