@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { CircularProgress } from 'react-cssfx-loading';
-import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { ToastError, getListUser } from '~/admin/utils';
 import { PathAdmin } from '~/routers/PathAdmin';
 import ListUser from './ListUser';
+import Loading from '~/admin/components/Loading/Loading';
 
 function ManagerUser(props) {
     const [listUser, setListUser] = useState([]);
@@ -15,22 +14,18 @@ function ManagerUser(props) {
     const navigate = useNavigate();
 
     const fetchApiListUser = () => {
-        setIsLoading(true);
         try {
             getListUser()
                 .then((result) => {
                     if (result.status === 200) {
-                        setTimeout(() => {
-                            setListUser(result.data);
-                            setIsLoading(false);
-                        }, 1500);
+                        setListUser(result.data);
                     }
                 })
                 .catch((error) => {
                     if (error.message === 'Network Error') {
                         navigate(`../${PathAdmin.adminNotFound}`);
                     } else {
-                        const errorValid = error.response.data; // {status, message}
+                        const errorValid = error.response.data;
                         if (errorValid.status === 404) {
                             ToastError(errorValid.message);
                         }
@@ -42,7 +37,11 @@ function ManagerUser(props) {
     };
 
     useEffect(() => {
-        fetchApiListUser();
+        const timer = setTimeout(() => {
+            fetchApiListUser();
+            setIsLoading(false);
+        }, 1500);
+        return () => clearTimeout(timer);
     }, []);
 
     return (
@@ -52,21 +51,9 @@ function ManagerUser(props) {
                     <h4>Manager User</h4>
                 </div>
 
-                {isLoading ? (
-                    <div style={{ textAlign: 'center', marginTop: '200px', fontSize: 50 }}>
-                        <CircularProgress />
-                        <h4>Loading ...</h4>
-                    </div>
-                ) : (
-                    <InfiniteScroll
-                        dataLength={listUser.length}
-                        next={fetchApiListUser}
-                        hasMore={false}
-                        endMessage={<p>No more data to load.</p>}
-                    >
-                        <ListUser listUser={listUser} setListUser={setListUser} fetchApiListUser={fetchApiListUser} />
-                    </InfiniteScroll>
-                )}
+                <Loading fetchApi={fetchApiListUser} listFetchApi={listUser} isLoading={isLoading} setIsLoading={setIsLoading}>
+                    <ListUser listUser={listUser} setListUser={setListUser} fetchApiListUser={fetchApiListUser} />
+                </Loading>
             </div>
         </div>
     );

@@ -16,8 +16,8 @@ function CreateProgram({ fetchApiProgram, closeModal, listCategory }) {
         title: '',
         budget: '',
         description: '',
-        category_id: '',
-        status: 'no coming',
+        categoryId: '',
+        status: 'UP_COMING',
     };
 
     const onSubmit = (data) => {
@@ -25,7 +25,7 @@ function CreateProgram({ fetchApiProgram, closeModal, listCategory }) {
         formDataValid.append('title', data.title);
         formDataValid.append('budget', data.budget);
         formDataValid.append('description', data.description);
-        formDataValid.append('category_id', data.category_id);
+        formDataValid.append('categoryId', data.categoryId);
         formDataValid.append('status', data.status);
         formDataValid.append('file', avatar);
         try {
@@ -57,7 +57,7 @@ function CreateProgram({ fetchApiProgram, closeModal, listCategory }) {
         title: Yup.string().required('title is required'),
         budget: Yup.string().required('budget is required'),
         description: Yup.string().required('description is required'),
-        category_id: Yup.string().required('category_id is required'),
+        categoryId: Yup.string().required('categorory is required'),
     });
 
     const fomik = useFormik({

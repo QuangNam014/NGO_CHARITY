@@ -11,6 +11,7 @@ import ProfileBtnEdit from './ProfileBtnEdit';
 import ProfileBtnChangePass from './ProfileBtnChangePass';
 import AuthenticateAdmin from '~/admin/utils/AuthenticateAdmin';
 import './Profile.css';
+import ProfileBtnDonate from './ProfileBtnDonate';
 
 function ProfileUser(props) {
     const [activeBtnProfile, setActiveBtnProfile] = useState(1);
@@ -60,11 +61,7 @@ function ProfileUser(props) {
                                 <div>
                                     {getInfoUser && (
                                         <div className="user__pages__profile--wrapper-content">
-                                            <img
-                                                alt=""
-                                                className="user__pages__profile--wrapper-content-img"
-                                                src={getAvatar(getInfoUser.image)}
-                                            />
+                                            <img alt="" className="user__pages__profile--wrapper-content-img" src={getAvatar(getInfoUser.image)} />
                                             <span className="font-weight-bold mt-2" style={{ fontSize: '20px' }}>
                                                 {getInfoUser.name}
                                             </span>
@@ -83,12 +80,14 @@ function ProfileUser(props) {
 
                         <div className="image-part col-md-8">
                             <div className="about-quick-box row">
-                                <div className="about-qcard">
+                                <div className="about-qcard" style={{ width: 800 }}>
                                     {activeBtnProfile === 1 && <ProfileBtnDetail getInfoUser={getInfoUser} />}
 
                                     {activeBtnProfile === 2 && <ProfileBtnEdit getInfoUser={getInfoUser} />}
 
-                                    {activeBtnProfile === 3 && <ProfileBtnChangePass getInfoUser={getInfoUser} />}
+                                    {activeBtnProfile === 3 && <ProfileBtnDonate getInfoUser={getInfoUser} />}
+
+                                    {activeBtnProfile === 4 && <ProfileBtnChangePass getInfoUser={getInfoUser} />}
                                 </div>
                             </div>
                         </div>

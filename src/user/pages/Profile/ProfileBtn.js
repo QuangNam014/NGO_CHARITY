@@ -21,9 +21,17 @@ function ProfileBtn({ setActiveBtnProfile }) {
 
             <InputToolTip
                 openModal={() => setActiveBtnProfile(3)}
+                content="Is donated"
+                placement="bottom"
+                classBtn="btn-success"
+                icon="fa-solid fa-circle-dollar-to-slot"
+            />
+
+            <InputToolTip
+                openModal={() => setActiveBtnProfile(4)}
                 content="Change Password"
                 placement="right"
-                classBtn="btn-success"
+                classBtn="btn-danger"
                 icon="fa-solid fa-gear"
             />
         </div>

@@ -4,9 +4,9 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 
 import { PathUser } from '../../routers/PathUser';
-import AuthenticateAdmin from '~/admin/utils/AuthenticateAdmin';
 import { useLoginStore } from '~/admin/stores';
 import { useDataStoreUser } from '../stores';
+import AuthenticateAdmin from '~/admin/utils/AuthenticateAdmin';
 import getAvatar from '~/admin/utils/GetAvatar';
 import './Layouts.css';
 
@@ -42,7 +42,7 @@ function Header(props) {
     };
 
     const handleDonate = () => {
-        navigate(`../${PathUser.userDonationMoney}`, { state: { program_id: { title: '', category_Id: 0 } } });
+        navigate(`../${PathUser.userDonationMoney}`, { state: { program_id: { title: '', id: null } } });
     };
 
     return (
@@ -91,26 +91,15 @@ function Header(props) {
                             {isInforUser ? (
                                 <div className="user__header--header-right " ref={menuRef}>
                                     <div onClick={() => setOpen(!open)}>
-                                        <img
-                                            className="user__layouts__header--header--menu-trigger-img"
-                                            src={getAvatar(getInfoUser.image)}
-                                            alt=""
-                                        />
+                                        <img className="user__layouts__header--header--menu-trigger-img" src={getAvatar(getInfoUser.image)} alt="" />
                                     </div>
-                                    <div
-                                        className={`user__layouts__header--header--dropdown-menu ${
-                                            open ? 'active' : 'inactive'
-                                        }`}
-                                    >
+                                    <div className={`user__layouts__header--header--dropdown-menu ${open ? 'active' : 'inactive'}`}>
                                         <ul style={{ textAlign: 'center' }}>
                                             <li className="user__layouts__header--header--dropdownItem">
                                                 <i className="fa-regular fa-circle-user"></i>
                                                 <Link to={PathUser.userProfile}>Profile</Link>
                                             </li>
-                                            <li
-                                                className="user__layouts__header--header--dropdownItem"
-                                                onClick={handleLogout}
-                                            >
+                                            <li className="user__layouts__header--header--dropdownItem" onClick={handleLogout}>
                                                 <i className="fa-solid fa-arrow-right-to-bracket fa-rotate-180"></i>
                                                 <a>Logout</a>
                                             </li>

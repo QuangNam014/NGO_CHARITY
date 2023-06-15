@@ -11,10 +11,7 @@ function NotFoundAdmin(props) {
                     500
                 </h2>
                 <h4 data-text="Opps! Error Server">Opps! Error Server</h4>
-                <p>
-                    Sorry, the page you're looking for doesn't exist. If you think something is broken, report a
-                    problem.
-                </p>
+                <p>Sorry, the page you're looking for doesn't exist. If you think something is broken, report a problem.</p>
                 <div className="user__pages__notFound--btns">
                     <Link to={PathAdmin.admin}>return dashboard</Link>
                 </div>

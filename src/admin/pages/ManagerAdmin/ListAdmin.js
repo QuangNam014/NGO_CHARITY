@@ -4,8 +4,8 @@ import Swal from 'sweetalert2';
 import 'sweetalert2/dist/sweetalert2.css';
 
 import { ToastError, ToastSuccess, deleteUser } from '~/admin/utils';
-import ResetPassword from './ResetPassword';
 import { PathAdmin } from '~/routers/PathAdmin';
+import ResetPassword from './ResetPassword';
 
 function ListAdmin({ listAdmin, setListAdmin }) {
     const navigate = useNavigate();

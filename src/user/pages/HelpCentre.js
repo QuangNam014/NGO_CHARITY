@@ -3,6 +3,8 @@ import { Fragment, useState } from 'react';
 import * as yup from 'yup';
 import { useFormik } from 'formik';
 import '../pages/HelpCentre.css';
+import Swal from 'sweetalert2';
+import 'sweetalert2/dist/sweetalert2.css';
 function HelpCentre(props) {
     const [contactForms, setContactForm] = useState([]);
     const [submitSuccess, setSubmitSuccess] = useState(false);
@@ -28,8 +30,6 @@ function HelpCentre(props) {
         valmessage: yup.string().required('Message is required').min(10, 'At least 10 characters').max(100, 'Maximum 100 characters'),
     });
 
-   
-
     const handleCreateInputChange = (e) => {
         const { name, value } = e.target;
         fmk.setFieldValue(name, value);
@@ -50,6 +50,7 @@ function HelpCentre(props) {
                 setContactForm([...contactForms, newContactForm]);
                 setSubmitSuccess(true);
                 fmk.resetForm();
+                Swal.fire('Thank you!', 'We will check you message soon!', 'success');
             })
             .catch((error) => console.log(error));
     };
@@ -60,7 +61,7 @@ function HelpCentre(props) {
     });
     return (
         <Fragment>
-             {submitSuccess && (
+            {submitSuccess && (
                 <div className="modal">
                     <div className="modal-content">
                         <h2>Message Sent</h2>
@@ -101,13 +102,7 @@ function HelpCentre(props) {
             <div className="row contact-rooo no-margin">
                 <div className="container">
                     <div className="row">
-                        <form
-                            onSubmit={fmk.handleSubmit}
-                            action="#"
-                            method="post"
-                            style={{ padding: '20px' }}
-                            className="col-sm-7"
-                        >
+                        <form onSubmit={fmk.handleSubmit} action="#" method="post" style={{ padding: '20px' }} className="col-sm-7">
                             <h2>Contact Form</h2> <br />
                             <div className="row cont-row">
                                 <div className="col-sm-3">

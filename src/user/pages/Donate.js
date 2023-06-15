@@ -1,6 +1,7 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { Fragment, useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { ToastError, getListProgram } from '~/admin';
+import { ToastError, getListCategory, getListProgram } from '~/admin';
 import { PathUser } from '~/routers/PathUser';
 
 function Donate(props) {
@@ -8,7 +9,7 @@ function Donate(props) {
     const [listCategory, setListCategory] = useState([]);
     const [filter, setFilter] = useState('');
     const [filteredData, setFilteredData] = useState([]);
-    // const [displayLimit, setDisplayLimit] = useState(3);
+    
     const navigate = useNavigate();
 
     const handleDonate = (program) => {
@@ -20,17 +21,12 @@ function Donate(props) {
     };
 
     const fetchApiProgram = () => {
-        // setIsLoading(true);
         try {
             getListProgram()
                 .then((result) => {
                     if (result.status === 200) {
                         setTimeout(() => {
-                            // console.log(result.data);
                             setListProgram(result.data);
-                            // setListProgram(result.data.slice(0, displayLimit));
-                            // ToastSuccess(result.message);
-                            // setIsLoading(false);
                         }, 1500);
                     }
                 })
@@ -50,47 +46,33 @@ function Donate(props) {
     };
 
     const fetchApiCategory = () => {
-        // setIsLoading(true);
-        setListCategory([
-            { id: 1, title: 'Children' },
-            { id: 2, title: 'HealthCare' },
-            { id: 3, title: 'Disaster Relief' },
-            { id: 4, title: 'Women Empowerment' },
-        ]);
-        // try {
-        //     getListProgram()
-        //         .then((result) => {
-        //             if (result.status === 200) {
-        //                 setTimeout(() => {
-        //                     // console.log(result.data);
-        //                     setListProgram(result.data);
-        //                     // ToastSuccess(result.message);
-        //                     // setIsLoading(false);
-        //                 }, 1500);
-        //             }
-        //         })
-        //         .catch((error) => {
-        //             if (error.message === 'Network Error') {
-        //                 navigate(`../${PathUser.userNotFound}`);
-        //             } else {
-        //                 const errorValid = error.response.data; // {status, message}
-        //                 if (errorValid.status === 404) {
-        //                     ToastError(errorValid.message);
-        //                 }
-        //             }
-        //         });
-        // } catch (error) {
-        //     console.log(error);
-        // }
+        try {
+            getListCategory()
+                .then((result) => {
+                    if (result.status === 200) {
+                        setListCategory(result.data);
+                    }
+                })
+                .catch((error) => {
+                    if (error.message === 'Network Error') {
+                        navigate(`${PathUser.userNotFound}`);
+                    } else {
+                        const errorValid = error.response.data; 
+                        if (errorValid.status === 404) {
+                            ToastError(errorValid.message);
+                        }
+                    }
+                });
+        } catch (error) {
+            console.log(error);
+        }
     };
 
     useEffect(() => {
         fetchApiProgram();
         fetchApiCategory();
-    }, []);
 
-    useEffect(() => {
-        const filterData = listProgram.filter((item) => item.category_Id === filter);
+        const filterData = listProgram.filter((item) => item.categoryId === filter && item.status === 'COMING');
         setFilteredData(filterData);
     }, [filter]);
 
@@ -120,11 +102,7 @@ function Donate(props) {
                     All
                 </button>
                 {listCategory.map((category, index) => (
-                    <button
-                        key={index}
-                        className="btn btn-default filter-button"
-                        onClick={() => handleFilter(category.id)}
-                    >
+                    <button key={index} className="btn btn-default filter-button" onClick={() => handleFilter(category.id)}>
                         {category.title}
                     </button>
                 ))}
@@ -147,10 +125,7 @@ function Donate(props) {
                                               <span>Budget: ${program.budget.toLocaleString()}</span>
                                           </p>
                                           <p className="desic">{program.description}</p>
-                                          <button
-                                              onClick={() => handleDonate(program)}
-                                              className="btn btn-success btn-sm"
-                                          >
+                                          <button onClick={() => handleDonate(program)} className="btn btn-success btn-sm">
                                               Donate Now
                                           </button>
                                       </div>
@@ -167,12 +142,26 @@ function Donate(props) {
                                               <span>Budget: ${program.budget.toLocaleString()}</span>
                                           </p>
                                           <p className="desic">{program.description}</p>
-                                          <button
-                                              onClick={() => handleDonate(program)}
-                                              className="btn btn-success btn-sm"
-                                          >
-                                              Donate Now
-                                          </button>
+                                          <div>
+                                              <span
+                                                  className={`desic label ${
+                                                      program.status === 'UP_COMING'
+                                                          ? 'label-success'
+                                                          : program.status === 'COMING'
+                                                          ? 'label-warning'
+                                                          : program.status === 'CLOSE'
+                                                          ? 'label-danger'
+                                                          : ''
+                                                  }`}
+                                              >
+                                                  {program.status}
+                                              </span>
+                                          </div>
+                                          {program.status === 'COMING' && (
+                                              <button onClick={() => handleDonate(program)} className="mt-3 btn btn-success btn-sm">
+                                                  Donate Now
+                                              </button>
+                                          )}
                                       </div>
                                   </div>
                               ))}

@@ -1,8 +1,8 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { CircularProgress } from 'react-cssfx-loading';
+import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { ModalComponent } from '~/admin/components';
 import { ToastError, getListAdmin } from '~/admin/utils';
