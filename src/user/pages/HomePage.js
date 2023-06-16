@@ -3,14 +3,11 @@
 import { Fragment, useEffect, useState } from 'react';
 
 import { SliderImage } from '../components';
-import { useNavigate } from 'react-router-dom';
-import { GetToTalPriceInNull, ToastError } from '~/admin';
-import { PathUser } from '~/routers/PathUser';
+import { GetToTalPriceInNull } from '~/admin';
 import TotalDonate from './DonationMoney/TotalDonate';
 
 function HomePage(props) {
     const [totalPriceInNull, setTotalPriceInNull] = useState();
-    const navigate = useNavigate();
 
     const fetchApiUserReceipt = () => {
         // setIsLoading(true);
@@ -25,20 +22,12 @@ function HomePage(props) {
                     }
                 })
                 .catch((error) => {
-                    if (error.message === 'Network Error') {
-                        navigate(`${PathUser.userNotFound}`);
-                    } else {
-                        const errorValid = error.response.data;
-                        if (errorValid.status === 404) {
-                            ToastError(errorValid.message);
-                        }
-                    }
+                    console.clear();
                 });
         } catch (error) {
             console.log(error);
         }
     };
-    // console.log(totalPriceInNull.money);
 
     useEffect(() => {
         fetchApiUserReceipt();
@@ -86,7 +75,7 @@ function HomePage(props) {
                                 }}
                             >
                                 <div style={{ fontSize: 50 }}>
-                                    <TotalDonate targetNumber={totalPriceInNull && totalPriceInNull.money} title="Total charity money" />
+                                    <TotalDonate targetNumber={totalPriceInNull ? totalPriceInNull.money : 1000000} title="Total charity money" />
                                 </div>
                                 {/* <div className="col-md-6">
                                     <div className="about-qcard">

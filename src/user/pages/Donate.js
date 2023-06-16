@@ -18,6 +18,7 @@ function Donate(props) {
 
     const handleFilter = (id) => {
         setFilter(id);
+        console.log(id);
     };
 
     const fetchApiProgram = () => {
@@ -57,7 +58,7 @@ function Donate(props) {
                     if (error.message === 'Network Error') {
                         navigate(`${PathUser.userNotFound}`);
                     } else {
-                        const errorValid = error.response.data; 
+                        const errorValid = error.response.data;
                         if (errorValid.status === 404) {
                             ToastError(errorValid.message);
                         }
@@ -138,7 +139,6 @@ function Donate(props) {
                                           <h4>{program.title}</h4>
 
                                           <p className="raises">
-                                              {/* <span>Raised : $34,425</span> / $500,000{' '} */}
                                               <span>Budget: ${program.budget.toLocaleString()}</span>
                                           </p>
                                           <p className="desic">{program.description}</p>

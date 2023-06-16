@@ -12,7 +12,6 @@ import NavHeader from './NavHeader';
 import SideBar from './SideBar';
 import Footer from './Footer';
 import Header from './Header';
-// import Loader from './Loader';
 
 function AdminPage(props) {
     const [getInfoUser, setGetInfoUser] = useState({});
@@ -55,9 +54,6 @@ function AdminPage(props) {
             <ToastContainer />
 
             <div>
-                {/* Loader */}
-                {/* <Loader /> */}
-                {/* <div id="admin__layouts--main-wrapper" className='show menu-toggle'> */}
                 {/* Nav Header */}
                 <NavHeader />
 

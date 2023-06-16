@@ -1,7 +1,6 @@
 import axios from 'axios';
 import React, { Fragment, useEffect, useState } from 'react';
 import Modal from 'react-modal';
-import { useNavigate } from 'react-router-dom';
 
 function EditAboutAdmin({ item, fetchApiAbout }) {
     const initEditAbout = {
@@ -16,8 +15,6 @@ function EditAboutAdmin({ item, fetchApiAbout }) {
     const [image, setImage] = useState(null);
     const [showErrorName, setShowErrorName] = useState(false);
     const [showErrorFile, setShowErrorFile] = useState(false);
-
-    const navigate = useNavigate();
 
     const openModal = () => setShowModal(true);
     const closeModal = () => setShowModal(false);
@@ -121,65 +118,58 @@ function EditAboutAdmin({ item, fetchApiAbout }) {
                     <div className="container">
                         <div className="edit-about-modal">
                             <h2 style={{ textAlign: 'center' }}>Edit About</h2>
-                            <form>
+
+                            <div className="form-group">
+                                <label>Name</label>
+                                <input type="text" name="name" className="form-control" value={formData.name} onChange={handleChangeInput} />
+                            </div>
+                            <div className="form-group">
+                                <label>Account Name</label>
+                                <input
+                                    type="text"
+                                    name="account_Name"
+                                    className="form-control"
+                                    value={formData.account_Name}
+                                    onChange={handleChangeInput}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Account Number</label>
+                                <input
+                                    type="text"
+                                    name="account_Number"
+                                    className="form-control"
+                                    value={formData.account_Number}
+                                    onChange={handleChangeInput}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Account Bank</label>
+                                <input
+                                    type="text"
+                                    name="account_Bank"
+                                    className="form-control"
+                                    value={formData.account_Bank}
+                                    onChange={handleChangeInput}
+                                />
+                            </div>
+                            <div className="form-group">
+                                <label>Image</label>
+                                <input type="file" name="about_Images" className="form-control-file" onChange={handleImageChange} accept="image/*" />
+                            </div>
+                            {image && (
                                 <div className="form-group">
-                                    <label>Name</label>
-                                    <input type="text" name="name" className="form-control" value={formData.name} onChange={handleChangeInput} />
+                                    <img width={100} src={image.pre} alt="avatar" />
                                 </div>
-                                <div className="form-group">
-                                    <label>Account Name</label>
-                                    <input
-                                        type="text"
-                                        name="account_Name"
-                                        className="form-control"
-                                        value={formData.account_Name}
-                                        onChange={handleChangeInput}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Account Number</label>
-                                    <input
-                                        type="text"
-                                        name="account_Number"
-                                        className="form-control"
-                                        value={formData.account_Number}
-                                        onChange={handleChangeInput}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Account Bank</label>
-                                    <input
-                                        type="text"
-                                        name="account_Bank"
-                                        className="form-control"
-                                        value={formData.account_Bank}
-                                        onChange={handleChangeInput}
-                                    />
-                                </div>
-                                <div className="form-group">
-                                    <label>Image</label>
-                                    <input
-                                        type="file"
-                                        name="about_Images"
-                                        className="form-control-file"
-                                        onChange={handleImageChange}
-                                        accept="image/*"
-                                    />
-                                </div>
-                                {image && (
-                                    <div className="form-group">
-                                        <img width={100} src={image.pre} alt="avatar" />
-                                    </div>
-                                )}
-                                <div className="form-group">
-                                    <button type="submit" className="btn btn-primary " onClick={handleUpdateAbout}>
-                                        Update
-                                    </button>
-                                    <button type="button" className="btn btn-secondary ml-2" onClick={closeModal}>
-                                        Cancel
-                                    </button>
-                                </div>
-                            </form>
+                            )}
+                            <div className="form-group">
+                                <button type="submit" className="btn btn-primary " onClick={handleUpdateAbout}>
+                                    Update
+                                </button>
+                                <button type="button" className="btn btn-secondary ml-2" onClick={closeModal}>
+                                    Cancel
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </form>

@@ -1,18 +1,13 @@
+import { Link } from 'react-router-dom';
+import { PathAdmin } from '~/routers/PathAdmin';
+
 function NavHeader(props) {
     return (
         <div className="admin__layouts__nav-header--nav-header">
             <div className="admin__layouts__nav-header--brand-logo">
-                <a href="index.html">
-                    <b className="admin__layouts__nav-header--logo-abbr">
-                        <img src="/assets/images/logo.png" alt="" />{' '}
-                    </b>
-                    <span className="admin__layouts__nav-header--logo-compact">
-                        <img src="/assets/images/logo-compact.png" alt="" />
-                    </span>
-                    <span className="admin__layouts__nav-header--brand-title">
-                        <img src="/assets/images/logo-text.png" alt="" />
-                    </span>
-                </a>
+                <Link to={PathAdmin.admin} style={{ padding: 0 }}>
+                    <img src="/assets/images/logo.jpg" alt="logo" style={{ height: '5rem' }} />
+                </Link>
             </div>
         </div>
     );
